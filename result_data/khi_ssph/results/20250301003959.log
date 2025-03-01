@@ -1,0 +1,635 @@
+OpenMP is enabled.
+Number of threads = 8
+app_name: lane_emden
+G = 0.00043
+Using algorithm: GSPH
+Initialization complete. Particle count=4224
+write results/00000.dat
+loop: 1, time: 0.00598103, dt: 0.00598103, num: 4224
+loop: 2, time: 0.0118298, dt: 0.00584881, num: 4224
+loop: 3, time: 0.0177232, dt: 0.00589339, num: 4224
+loop: 4, time: 0.0237456, dt: 0.00602234, num: 4224
+loop: 5, time: 0.0298044, dt: 0.00605887, num: 4224
+loop: 6, time: 0.0359173, dt: 0.00611285, num: 4224
+loop: 7, time: 0.0421046, dt: 0.0061873, num: 4224
+loop: 8, time: 0.0483901, dt: 0.00628551, num: 4224
+loop: 9, time: 0.0547991, dt: 0.006409, num: 4224
+loop: 10, time: 0.0613556, dt: 0.00655649, num: 4224
+loop: 11, time: 0.0680803, dt: 0.00672468, num: 4224
+loop: 12, time: 0.0749903, dt: 0.00690998, num: 4224
+loop: 13, time: 0.0821, dt: 0.00710973, num: 4224
+loop: 14, time: 0.0894225, dt: 0.00732247, num: 4224
+loop: 15, time: 0.0969704, dt: 0.00754797, num: 4224
+loop: 16, time: 0.104758, dt: 0.0077873, num: 4224
+loop: 17, time: 0.112801, dt: 0.00804335, num: 4224
+loop: 18, time: 0.121007, dt: 0.00820587, num: 4224
+loop: 19, time: 0.129307, dt: 0.00829968, num: 4224
+loop: 20, time: 0.137967, dt: 0.00866056, num: 4224
+loop: 21, time: 0.147246, dt: 0.00927919, num: 4224
+loop: 22, time: 0.156911, dt: 0.00966483, num: 4224
+loop: 23, time: 0.16699, dt: 0.0100784, num: 4224
+loop: 24, time: 0.177506, dt: 0.0105169, num: 4224
+loop: 25, time: 0.188483, dt: 0.0109764, num: 4224
+loop: 26, time: 0.199935, dt: 0.0114521, num: 4224
+loop: 27, time: 0.211875, dt: 0.0119403, num: 4224
+loop: 28, time: 0.224312, dt: 0.0124364, num: 4224
+loop: 29, time: 0.237247, dt: 0.0129354, num: 4224
+loop: 30, time: 0.25068, dt: 0.0134331, num: 4224
+loop: 31, time: 0.264605, dt: 0.0139252, num: 4224
+loop: 32, time: 0.279019, dt: 0.0144137, num: 4224
+loop: 33, time: 0.293921, dt: 0.0149017, num: 4224
+loop: 34, time: 0.309311, dt: 0.0153903, num: 4224
+write results/00001.dat
+loop: 35, time: 0.325203, dt: 0.0158922, num: 4224
+loop: 36, time: 0.34163, dt: 0.0164265, num: 4224
+loop: 37, time: 0.358642, dt: 0.0170119, num: 4224
+loop: 38, time: 0.376309, dt: 0.0176676, num: 4224
+loop: 39, time: 0.39472, dt: 0.0184109, num: 4224
+loop: 40, time: 0.413976, dt: 0.0192557, num: 4224
+loop: 41, time: 0.434187, dt: 0.020211, num: 4224
+loop: 42, time: 0.455468, dt: 0.0212813, num: 4224
+loop: 43, time: 0.477935, dt: 0.0224669, num: 4224
+loop: 44, time: 0.501701, dt: 0.0237661, num: 4224
+loop: 45, time: 0.52688, dt: 0.0251785, num: 4224
+loop: 46, time: 0.553588, dt: 0.0267081, num: 4224
+loop: 47, time: 0.581954, dt: 0.0283667, num: 4224
+loop: 48, time: 0.612131, dt: 0.030177, num: 4224
+write results/00002.dat
+loop: 49, time: 0.644306, dt: 0.0321746, num: 4224
+loop: 50, time: 0.678716, dt: 0.0344102, num: 4224
+loop: 51, time: 0.715666, dt: 0.0369502, num: 4224
+loop: 52, time: 0.755543, dt: 0.0398764, num: 4224
+loop: 53, time: 0.798829, dt: 0.043286, num: 4224
+loop: 54, time: 0.846121, dt: 0.047292, num: 4224
+loop: 55, time: 0.898147, dt: 0.0520261, num: 4224
+loop: 56, time: 0.955792, dt: 0.0576452, num: 4224
+write results/00003.dat
+loop: 57, time: 1.02013, dt: 0.0643411, num: 4224
+loop: 58, time: 1.09249, dt: 0.0723541, num: 4224
+loop: 59, time: 1.17448, dt: 0.0819923, num: 4224
+loop: 60, time: 1.26814, dt: 0.093658, num: 4224
+write results/00004.dat
+loop: 61, time: 1.37602, dt: 0.107884, num: 4224
+loop: 62, time: 1.50141, dt: 0.125391, num: 4224
+write results/00005.dat
+loop: 63, time: 1.64858, dt: 0.147164, num: 4224
+loop: 64, time: 1.82315, dt: 0.174576, num: 4224
+write results/00006.dat
+loop: 65, time: 2.03273, dt: 0.209578, num: 4224
+loop: 66, time: 2.28772, dt: 0.25499, num: 4224
+write results/00007.dat
+loop: 67, time: 2.6027, dt: 0.314982, num: 4224
+write results/00008.dat
+loop: 68, time: 2.99857, dt: 0.395864, num: 4224
+write results/00009.dat
+loop: 69, time: 3.50601, dt: 0.50744, num: 4224
+write results/00010.dat
+loop: 70, time: 4.1714, dt: 0.665395, num: 4224
+write results/00011.dat
+loop: 71, time: 5.06644, dt: 0.895042, num: 4224
+write results/00012.dat
+loop: 72, time: 6.28252, dt: 1.21608, num: 4224
+write results/00013.dat
+loop: 73, time: 7.97559, dt: 1.69307, num: 4224
+write results/00014.dat
+loop: 74, time: 10.3998, dt: 2.42417, num: 4224
+write results/00015.dat
+loop: 75, time: 13.9753, dt: 3.57557, num: 4224
+write results/00016.dat
+Particle id 1588 is not convergence
+Particle id 1589 is not convergence
+Particle id 1074 is not convergence
+Particle id 1079 is not convergence
+Particle id 1594 is not convergence
+Particle id 1595 is not convergence
+Particle id 3727 is not convergence
+Particle id 1093 is not convergence
+Particle id 3198 is not convergence
+Particle id 3736 is not convergence
+Particle id 1096 is not convergence
+Particle id 2648 is not convergence
+Particle id 3203 is not convergence
+Particle id 3742 is not convergence
+Particle id 1124 is not convergence
+Particle id 599 is not convergence
+Particle id 3743 is not convergence
+Particle id 3750 is not convergence
+Particle id 3751 is not convergence
+Particle id 1135 is not convergence
+Particle id 2653 is not convergence
+Particle id 1141 is not convergence
+Particle id 1150 is not convergence
+Particle id 608 is not convergence
+Particle id 3217 is not convergence
+Particle id 3220 is not convergence
+Particle id 614 is not convergence
+Particle id 615 is not convergence
+Particle id 3248 is not convergence
+Particle id 622 is not convergence
+Particle id 623 is not convergence
+Particle id 3259 is not convergence
+Particle id 3265 is not convergence
+Particle id 3274 is not convergence
+Particle id 1688 is not convergence
+Particle id 1689 is not convergence
+Particle id 1269 is not convergence
+Particle id 1694 is not convergence
+Particle id 1272 is not convergence
+Particle id 1695 is not convergence
+Particle id 686 is not convergence
+Particle id 3342 is not convergence
+Particle id 1286 is not convergence
+Particle id 2817 is not convergence
+Particle id 687 is not convergence
+Particle id 3343 is not convergence
+Particle id 1287 is not convergence
+Particle id 2820 is not convergence
+Particle id 1290 is not convergence
+Particle id 1291 is not convergence
+Particle id 694 is not convergence
+Particle id 3350 is not convergence
+Particle id 695 is not convergence
+Particle id 3351 is not convergence
+Particle id 700 is not convergence
+Particle id 3356 is not convergence
+Particle id 701 is not convergence
+Particle id 2834 is not convergence
+Particle id 3357 is not convergence
+Particle id 2835 is not convergence
+Particle id 1304 is not convergence
+Particle id 1305 is not convergence
+Particle id 2838 is not convergence
+Particle id 2839 is not convergence
+Particle id 1310 is not convergence
+Particle id 1311 is not convergence
+Particle id 710 is not convergence
+Particle id 3366 is not convergence
+Particle id 3367 is not convergence
+Particle id 711 is not convergence
+Particle id 1708 is not convergence
+Particle id 3372 is not convergence
+Particle id 2852 is not convergence
+Particle id 2853 is not convergence
+Particle id 1713 is not convergence
+Particle id 2858 is not convergence
+Particle id 2859 is not convergence
+Particle id 3383 is not convergence
+Particle id 716 is not convergence
+Particle id 727 is not convergence
+Particle id 1364 is not convergence
+Particle id 1365 is not convergence
+Particle id 1370 is not convergence
+Particle id 1371 is not convergence
+Particle id 2510 is not convergence
+Particle id 2515 is not convergence
+Particle id 1384 is not convergence
+Particle id 1385 is not convergence
+Particle id 1388 is not convergence
+Particle id 1389 is not convergence
+Particle id 2528 is not convergence
+Particle id 2529 is not convergence
+Particle id 1403 is not convergence
+Particle id 1406 is not convergence
+Particle id 2912 is not convergence
+Particle id 2913 is not convergence
+Particle id 2534 is not convergence
+Particle id 2535 is not convergence
+Particle id 2918 is not convergence
+Particle id 2919 is not convergence
+Particle id 2932 is not convergence
+Particle id 2933 is not convergence
+Particle id 2936 is not convergence
+Particle id 2937 is not convergence
+Particle id 2951 is not convergence
+Particle id 2954 is not convergence
+Particle id 840 is not convergence
+Particle id 3496 is not convergence
+Particle id 851 is not convergence
+Particle id 3507 is not convergence
+Particle id 856 is not convergence
+Particle id 857 is not convergence
+Particle id 3512 is not convergence
+Particle id 3513 is not convergence
+Particle id 866 is not convergence
+Particle id 867 is not convergence
+Particle id 3522 is not convergence
+Particle id 3523 is not convergence
+Particle id 872 is not convergence
+Particle id 873 is not convergence
+Particle id 3528 is not convergence
+Particle id 3529 is not convergence
+Particle id 880 is not convergence
+Particle id 881 is not convergence
+Particle id 3536 is not convergence
+Particle id 3537 is not convergence
+Particle id 472 is not convergence
+Particle id 473 is not convergence
+Particle id 1570 is not convergence
+Particle id 3073 is not convergence
+Particle id 1575 is not convergence
+Particle id 949 is not convergence
+Particle id 480 is not convergence
+Particle id 3600 is not convergence
+Particle id 481 is not convergence
+Particle id 3601 is not convergence
+Particle id 487 is not convergence
+Particle id 958 is not convergence
+Particle id 3082 is not convergence
+Particle id 3608 is not convergence
+Particle id 3609 is not convergence
+Particle id 964 is not convergence
+Particle id 3088 is not convergence
+Particle id 3615 is not convergence
+Particle id 496 is not convergence
+Particle id 975 is not convergence
+Particle id 3624 is not convergence
+Particle id 3099 is not convergence
+Particle id 1003 is not convergence
+Particle id 2628 is not convergence
+Particle id 1006 is not convergence
+Particle id 2629 is not convergence
+Particle id 2634 is not convergence
+Particle id 2635 is not convergence
+Particle id 3127 is not convergence
+Particle id 1020 is not convergence
+Particle id 3130 is not convergence
+Particle id 1025 is not convergence
+Particle id 3144 is not convergence
+Particle id 3149 is not convergence
+loop: 76, time: 19.4169, dt: 5.44158, num: 4224
+write results/00017.dat
+Particle id 1588 is not convergence
+Particle id 1589 is not convergence
+Particle id 2648 is not convergence
+Particle id 1074 is not convergence
+Particle id 2653 is not convergence
+Particle id 1079 is not convergence
+Particle id 1594 is not convergence
+Particle id 3727 is not convergence
+Particle id 1595 is not convergence
+Particle id 1093 is not convergence
+Particle id 1096 is not convergence
+Particle id 3736 is not convergence
+Particle id 3198 is not convergence
+Particle id 3742 is not convergence
+Particle id 3743 is not convergence
+Particle id 3203 is not convergence
+Particle id 3750 is not convergence
+Particle id 3751 is not convergence
+Particle id 3217 is not convergence
+Particle id 1124 is not convergence
+Particle id 3220 is not convergence
+Particle id 599 is not convergence
+Particle id 1135 is not convergence
+Particle id 608 is not convergence
+Particle id 1141 is not convergence
+Particle id 614 is not convergence
+Particle id 615 is not convergence
+Particle id 1150 is not convergence
+Particle id 622 is not convergence
+Particle id 623 is not convergence
+Particle id 3248 is not convergence
+Particle id 3259 is not convergence
+Particle id 3265 is not convergence
+Particle id 3274 is not convergence
+Particle id 686 is not convergence
+Particle id 687 is not convergence
+Particle id 1218 is not convergence
+Particle id 1223 is not convergence
+Particle id 694 is not convergence
+Particle id 695 is not convergence
+Particle id 700 is not convergence
+Particle id 701 is not convergence
+Particle id 710 is not convergence
+Particle id 711 is not convergence
+Particle id 2766 is not convergence
+Particle id 716 is not convergence
+Particle id 2771 is not convergence
+Particle id 3834 is not convergence
+Particle id 3839 is not convergence
+Particle id 727 is not convergence
+Particle id 1269 is not convergence
+Particle id 1272 is not convergence
+Particle id 1282 is not convergence
+Particle id 1286 is not convergence
+Particle id 1287 is not convergence
+Particle id 1290 is not convergence
+Particle id 1291 is not convergence
+Particle id 1295 is not convergence
+Particle id 2817 is not convergence
+Particle id 2820 is not convergence
+Particle id 3342 is not convergence
+Particle id 1304 is not convergence
+Particle id 1305 is not convergence
+Particle id 3343 is not convergence
+Particle id 2830 is not convergence
+Particle id 1310 is not convergence
+Particle id 1311 is not convergence
+Particle id 2834 is not convergence
+Particle id 2835 is not convergence
+Particle id 2838 is not convergence
+Particle id 3350 is not convergence
+Particle id 3908 is not convergence
+Particle id 1364 is not convergence
+Particle id 1688 is not convergence
+Particle id 310 is not convergence
+Particle id 3351 is not convergence
+Particle id 2839 is not convergence
+Particle id 840 is not convergence
+Particle id 1365 is not convergence
+Particle id 1689 is not convergence
+Particle id 3913 is not convergence
+Particle id 315 is not convergence
+Particle id 3356 is not convergence
+Particle id 3357 is not convergence
+Particle id 1370 is not convergence
+Particle id 1694 is not convergence
+Particle id 1371 is not convergence
+Particle id 1695 is not convergence
+Particle id 2843 is not convergence
+Particle id 3366 is not convergence
+Particle id 1380 is not convergence
+Particle id 3367 is not convergence
+Particle id 1384 is not convergence
+Particle id 1708 is not convergence
+Particle id 1385 is not convergence
+Particle id 3372 is not convergence
+Particle id 1388 is not convergence
+Particle id 1389 is not convergence
+Particle id 1713 is not convergence
+Particle id 1393 is not convergence
+Particle id 851 is not convergence
+Particle id 2852 is not convergence
+Particle id 3383 is not convergence
+Particle id 384 is not convergence
+Particle id 2853 is not convergence
+Particle id 856 is not convergence
+Particle id 857 is not convergence
+Particle id 389 is not convergence
+Particle id 2858 is not convergence
+Particle id 2859 is not convergence
+Particle id 866 is not convergence
+Particle id 867 is not convergence
+Particle id 872 is not convergence
+Particle id 873 is not convergence
+Particle id 1403 is not convergence
+Particle id 880 is not convergence
+Particle id 881 is not convergence
+Particle id 1406 is not convergence
+Particle id 2510 is not convergence
+Particle id 2515 is not convergence
+Particle id 2912 is not convergence
+Particle id 2913 is not convergence
+Particle id 2528 is not convergence
+Particle id 2529 is not convergence
+Particle id 2918 is not convergence
+Particle id 2919 is not convergence
+Particle id 2534 is not convergence
+Particle id 2535 is not convergence
+Particle id 2928 is not convergence
+Particle id 2932 is not convergence
+Particle id 2933 is not convergence
+Particle id 472 is not convergence
+Particle id 2936 is not convergence
+Particle id 473 is not convergence
+Particle id 2937 is not convergence
+Particle id 949 is not convergence
+Particle id 2941 is not convergence
+Particle id 958 is not convergence
+Particle id 480 is not convergence
+Particle id 2951 is not convergence
+Particle id 481 is not convergence
+Particle id 964 is not convergence
+Particle id 2954 is not convergence
+Particle id 975 is not convergence
+Particle id 487 is not convergence
+Particle id 3496 is not convergence
+Particle id 3507 is not convergence
+Particle id 1003 is not convergence
+Particle id 3512 is not convergence
+Particle id 3513 is not convergence
+Particle id 1006 is not convergence
+Particle id 496 is not convergence
+Particle id 3000 is not convergence
+Particle id 3522 is not convergence
+Particle id 3005 is not convergence
+Particle id 3523 is not convergence
+Particle id 1452 is not convergence
+Particle id 1020 is not convergence
+Particle id 3528 is not convergence
+Particle id 1025 is not convergence
+Particle id 1457 is not convergence
+Particle id 2628 is not convergence
+Particle id 3529 is not convergence
+Particle id 2629 is not convergence
+Particle id 3073 is not convergence
+Particle id 3536 is not convergence
+Particle id 3537 is not convergence
+Particle id 3082 is not convergence
+Particle id 2634 is not convergence
+Particle id 2635 is not convergence
+Particle id 3088 is not convergence
+Particle id 3099 is not convergence
+Particle id 3127 is not convergence
+Particle id 3130 is not convergence
+Particle id 3600 is not convergence
+Particle id 3601 is not convergence
+Particle id 3144 is not convergence
+Particle id 3149 is not convergence
+Particle id 3608 is not convergence
+Particle id 3609 is not convergence
+Particle id 3615 is not convergence
+Particle id 3624 is not convergence
+Particle id 1570 is not convergence
+Particle id 1575 is not convergence
+loop: 77, time: 27.0107, dt: 7.59383, num: 4224
+write results/00018.dat
+Particle id 1588 is not convergence
+Particle id 1589 is not convergence
+Particle id 1594 is not convergence
+Particle id 1595 is not convergence
+Particle id 1074 is not convergence
+Particle id 1079 is not convergence
+Particle id 2648 is not convergence
+Particle id 3198 is not convergence
+Particle id 1093 is not convergence
+Particle id 1096 is not convergence
+Particle id 3203 is not convergence
+Particle id 3217 is not convergence
+Particle id 2653 is not convergence
+Particle id 3220 is not convergence
+Particle id 1124 is not convergence
+Particle id 599 is not convergence
+Particle id 1135 is not convergence
+Particle id 608 is not convergence
+Particle id 1141 is not convergence
+Particle id 614 is not convergence
+Particle id 615 is not convergence
+Particle id 1150 is not convergence
+Particle id 622 is not convergence
+Particle id 623 is not convergence
+Particle id 1688 is not convergence
+Particle id 1689 is not convergence
+Particle id 1694 is not convergence
+Particle id 1695 is not convergence
+Particle id 3248 is not convergence
+Particle id 1708 is not convergence
+Particle id 3727 is not convergence
+Particle id 1713 is not convergence
+Particle id 3259 is not convergence
+Particle id 686 is not convergence
+Particle id 687 is not convergence
+Particle id 1218 is not convergence
+Particle id 3265 is not convergence
+Particle id 1223 is not convergence
+Particle id 694 is not convergence
+Particle id 3736 is not convergence
+Particle id 695 is not convergence
+Particle id 3274 is not convergence
+Particle id 700 is not convergence
+Particle id 701 is not convergence
+Particle id 3742 is not convergence
+Particle id 3743 is not convergence
+Particle id 1269 is not convergence
+Particle id 710 is not convergence
+Particle id 1272 is not convergence
+Particle id 711 is not convergence
+Particle id 3750 is not convergence
+Particle id 3751 is not convergence
+Particle id 1282 is not convergence
+Particle id 716 is not convergence
+Particle id 1286 is not convergence
+Particle id 1287 is not convergence
+Particle id 1290 is not convergence
+Particle id 1291 is not convergence
+Particle id 1295 is not convergence
+Particle id 727 is not convergence
+Particle id 1304 is not convergence
+Particle id 1305 is not convergence
+Particle id 1310 is not convergence
+Particle id 1311 is not convergence
+Particle id 2766 is not convergence
+Particle id 2771 is not convergence
+Particle id 1364 is not convergence
+Particle id 1365 is not convergence
+Particle id 3834 is not convergence
+Particle id 310 is not convergence
+Particle id 1370 is not convergence
+Particle id 3839 is not convergence
+Particle id 315 is not convergence
+Particle id 1371 is not convergence
+Particle id 3342 is not convergence
+Particle id 3343 is not convergence
+Particle id 1380 is not convergence
+Particle id 1384 is not convergence
+Particle id 1385 is not convergence
+Particle id 1388 is not convergence
+Particle id 1389 is not convergence
+Particle id 1393 is not convergence
+Particle id 3350 is not convergence
+Particle id 3351 is not convergence
+Particle id 1403 is not convergence
+Particle id 1406 is not convergence
+Particle id 3356 is not convergence
+Particle id 2817 is not convergence
+Particle id 2820 is not convergence
+Particle id 840 is not convergence
+Particle id 3357 is not convergence
+Particle id 2830 is not convergence
+Particle id 851 is not convergence
+Particle id 2834 is not convergence
+Particle id 2835 is not convergence
+Particle id 2838 is not convergence
+Particle id 856 is not convergence
+Particle id 384 is not convergence
+Particle id 2839 is not convergence
+Particle id 857 is not convergence
+Particle id 2843 is not convergence
+Particle id 3366 is not convergence
+Particle id 3367 is not convergence
+Particle id 389 is not convergence
+Particle id 866 is not convergence
+Particle id 867 is not convergence
+Particle id 3372 is not convergence
+Particle id 2852 is not convergence
+Particle id 2853 is not convergence
+Particle id 872 is not convergence
+Particle id 873 is not convergence
+Particle id 2858 is not convergence
+Particle id 2859 is not convergence
+Particle id 3383 is not convergence
+Particle id 880 is not convergence
+Particle id 881 is not convergence
+Particle id 3908 is not convergence
+Particle id 1452 is not convergence
+Particle id 3913 is not convergence
+Particle id 1457 is not convergence
+Particle id 2912 is not convergence
+Particle id 2913 is not convergence
+Particle id 2918 is not convergence
+Particle id 2919 is not convergence
+Particle id 2928 is not convergence
+Particle id 472 is not convergence
+Particle id 473 is not convergence
+Particle id 2932 is not convergence
+Particle id 949 is not convergence
+Particle id 480 is not convergence
+Particle id 3496 is not convergence
+Particle id 481 is not convergence
+Particle id 2933 is not convergence
+Particle id 487 is not convergence
+Particle id 958 is not convergence
+Particle id 3507 is not convergence
+Particle id 964 is not convergence
+Particle id 496 is not convergence
+Particle id 3512 is not convergence
+Particle id 3513 is not convergence
+Particle id 2936 is not convergence
+Particle id 975 is not convergence
+Particle id 2937 is not convergence
+Particle id 3522 is not convergence
+Particle id 3523 is not convergence
+Particle id 3528 is not convergence
+Particle id 3529 is not convergence
+Particle id 2941 is not convergence
+Particle id 3536 is not convergence
+Particle id 3537 is not convergence
+Particle id 2510 is not convergence
+Particle id 1003 is not convergence
+Particle id 1006 is not convergence
+Particle id 2515 is not convergence
+Particle id 2951 is not convergence
+Particle id 1020 is not convergence
+Particle id 2528 is not convergence
+Particle id 1025 is not convergence
+Particle id 2529 is not convergence
+Particle id 2954 is not convergence
+Particle id 2534 is not convergence
+Particle id 2535 is not convergence
+Particle id 1570 is not convergence
+Particle id 1575 is not convergence
+Particle id 3600 is not convergence
+Particle id 3601 is not convergence
+Particle id 3608 is not convergence
+Particle id 3609 is not convergence
+Particle id 3615 is not convergence
+Particle id 3624 is not convergence
+Particle id 3000 is not convergence
+Particle id 3005 is not convergence
+Particle id 2628 is not convergence
+Particle id 2629 is not convergence
+Particle id 2634 is not convergence
+Particle id 2635 is not convergence
+Particle id 3073 is not convergence
+Particle id 3082 is not convergence
+Particle id 3088 is not convergence
+Particle id 3099 is not convergence
+Particle id 3127 is not convergence
+Particle id 3130 is not convergence
+Particle id 3144 is not convergence
+Particle id 3149 is not convergence
+loop: 78, time: 34.8763, dt: 7.86555, num: 4224
+write results/00019.dat
+
+calculation is finished
+calculation time: 10028 ms

@@ -1,0 +1,9 @@
+OpenMP is enabled.
+Number of threads = 8
+app_name: lane_emden
+Using algorithm: DISPH
+catch exception.
+No recognized sample named lane_emden (and no code to fill from JSON-based ICs).
+file: /Users/guo/OSS/sphcode/src/solver.cpp
+func: initialize
+line: 363

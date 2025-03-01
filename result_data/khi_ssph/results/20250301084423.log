@@ -1,0 +1,8 @@
+OpenMP is enabled.
+Number of threads = 8
+app_name: khi
+catch exception.
+rangeMax != DIM
+file: /Users/guo/OSS/sphcode/src/solver.cpp
+func: parseJsonOverrides
+line: 205

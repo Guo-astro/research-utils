@@ -1,0 +1,4 @@
+OpenMP is enabled.
+Number of threads = 8
+app_name: lane_emden
+Using algorithm: DISPH

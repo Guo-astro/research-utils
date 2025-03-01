@@ -1,0 +1,112 @@
+OpenMP is enabled.
+Number of threads = 8
+app_name: lane_emden
+G = 0.00043
+Using algorithm: GSPH
+Initialization complete. Particle count=4224
+write results/00000.dat
+loop: 1, time: 0.0189137, dt: 0.0189137, num: 4224
+loop: 2, time: 0.037405, dt: 0.0184913, num: 4224
+loop: 3, time: 0.0560325, dt: 0.0186275, num: 4224
+loop: 4, time: 0.0750727, dt: 0.0190402, num: 4224
+loop: 5, time: 0.094225, dt: 0.0191522, num: 4224
+loop: 6, time: 0.113543, dt: 0.0193185, num: 4224
+loop: 7, time: 0.133092, dt: 0.0195483, num: 4224
+loop: 8, time: 0.152944, dt: 0.0198521, num: 4224
+loop: 9, time: 0.173178, dt: 0.0202346, num: 4224
+loop: 10, time: 0.19387, dt: 0.0206916, num: 4224
+loop: 11, time: 0.215083, dt: 0.0212126, num: 4224
+loop: 12, time: 0.236869, dt: 0.0217859, num: 4224
+loop: 13, time: 0.259272, dt: 0.0224031, num: 4224
+loop: 14, time: 0.282331, dt: 0.0230593, num: 4224
+loop: 15, time: 0.306084, dt: 0.0237535, num: 4224
+write results/00001.dat
+loop: 16, time: 0.330573, dt: 0.0244889, num: 4224
+loop: 17, time: 0.355848, dt: 0.0252744, num: 4224
+loop: 18, time: 0.38175, dt: 0.0259017, num: 4224
+loop: 19, time: 0.407885, dt: 0.0261351, num: 4224
+loop: 20, time: 0.435096, dt: 0.0272114, num: 4224
+loop: 21, time: 0.464161, dt: 0.0290647, num: 4224
+loop: 22, time: 0.494401, dt: 0.0302405, num: 4224
+loop: 23, time: 0.5259, dt: 0.0314985, num: 4224
+loop: 24, time: 0.558729, dt: 0.032829, num: 4224
+loop: 25, time: 0.592948, dt: 0.0342189, num: 4224
+loop: 26, time: 0.6286, dt: 0.0356525, num: 4224
+write results/00002.dat
+loop: 27, time: 0.665718, dt: 0.037118, num: 4224
+loop: 28, time: 0.704319, dt: 0.0386005, num: 4224
+loop: 29, time: 0.744403, dt: 0.0400843, num: 4224
+loop: 30, time: 0.785959, dt: 0.0415559, num: 4224
+loop: 31, time: 0.82896, dt: 0.0430011, num: 4224
+loop: 32, time: 0.873389, dt: 0.044429, num: 4224
+loop: 33, time: 0.919234, dt: 0.0458448, num: 4224
+write results/00003.dat
+loop: 34, time: 0.966484, dt: 0.0472504, num: 4224
+loop: 35, time: 1.01517, dt: 0.0486878, num: 4224
+loop: 36, time: 1.06538, dt: 0.0502125, num: 4224
+loop: 37, time: 1.11727, dt: 0.0518808, num: 4224
+loop: 38, time: 1.17101, dt: 0.0537497, num: 4224
+loop: 39, time: 1.22689, dt: 0.0558707, num: 4224
+write results/00004.dat
+loop: 40, time: 1.28517, dt: 0.0582843, num: 4224
+loop: 41, time: 1.34619, dt: 0.0610166, num: 4224
+loop: 42, time: 1.41027, dt: 0.0640788, num: 4224
+loop: 43, time: 1.47773, dt: 0.0674691, num: 4224
+loop: 44, time: 1.54891, dt: 0.0711789, num: 4224
+write results/00005.dat
+loop: 45, time: 1.62411, dt: 0.0752011, num: 4224
+loop: 46, time: 1.70365, dt: 0.0795403, num: 4224
+loop: 47, time: 1.78788, dt: 0.0842225, num: 4224
+loop: 48, time: 1.87718, dt: 0.0893041, num: 4224
+write results/00006.dat
+loop: 49, time: 1.97206, dt: 0.0948776, num: 4224
+loop: 50, time: 2.07314, dt: 0.101077, num: 4224
+loop: 51, time: 2.18121, dt: 0.108079, num: 4224
+write results/00007.dat
+loop: 52, time: 2.29732, dt: 0.116101, num: 4224
+loop: 53, time: 2.42271, dt: 0.125399, num: 4224
+write results/00008.dat
+loop: 54, time: 2.55898, dt: 0.136268, num: 4224
+loop: 55, time: 2.70802, dt: 0.149041, num: 4224
+write results/00009.dat
+loop: 56, time: 2.87213, dt: 0.16411, num: 4224
+loop: 57, time: 3.05408, dt: 0.181943, num: 4224
+write results/00010.dat
+loop: 58, time: 3.25719, dt: 0.203117, num: 4224
+loop: 59, time: 3.48555, dt: 0.22836, num: 4224
+write results/00011.dat
+loop: 60, time: 3.74416, dt: 0.258611, num: 4224
+write results/00012.dat
+loop: 61, time: 4.03926, dt: 0.295094, num: 4224
+write results/00013.dat
+loop: 62, time: 4.3787, dt: 0.339438, num: 4224
+write results/00014.dat
+loop: 63, time: 4.77253, dt: 0.393834, num: 4224
+write results/00015.dat
+loop: 64, time: 5.23381, dt: 0.461284, num: 4224
+write results/00016.dat
+loop: 65, time: 5.77977, dt: 0.545959, num: 4224
+write results/00017.dat
+loop: 66, time: 6.43354, dt: 0.653764, num: 4224
+write results/00018.dat
+loop: 67, time: 7.22674, dt: 0.793203, num: 4224
+write results/00019.dat
+loop: 68, time: 8.20353, dt: 0.976792, num: 4224
+write results/00020.dat
+loop: 69, time: 9.42691, dt: 1.22338, num: 4224
+write results/00021.dat
+loop: 70, time: 10.989, dt: 1.56208, num: 4224
+write results/00022.dat
+loop: 71, time: 13.0282, dt: 2.0392, num: 4224
+write results/00023.dat
+loop: 72, time: 15.7283, dt: 2.7001, num: 4224
+write results/00024.dat
+loop: 73, time: 19.3623, dt: 3.63406, num: 4224
+write results/00025.dat
+loop: 74, time: 24.3725, dt: 5.01019, num: 4224
+write results/00026.dat
+loop: 75, time: 31.4666, dt: 7.09407, num: 4224
+write results/00027.dat
+
+calculation is finished
+calculation time: 9739 ms

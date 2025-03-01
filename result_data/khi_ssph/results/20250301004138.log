@@ -1,0 +1,301 @@
+OpenMP is enabled.
+Number of threads = 8
+app_name: lane_emden
+G = 0.00043
+Using algorithm: GSPH
+Initialization complete. Particle count=4224
+write results/00000.dat
+loop: 1, time: 0.109198, dt: 0.109198, num: 4224
+loop: 2, time: 0.215085, dt: 0.105887, num: 4224
+loop: 3, time: 0.320763, dt: 0.105678, num: 4224
+write results/00001.dat
+loop: 4, time: 0.427635, dt: 0.106871, num: 4224
+loop: 5, time: 0.534902, dt: 0.107267, num: 4224
+loop: 6, time: 0.642325, dt: 0.107423, num: 4224
+write results/00002.dat
+loop: 7, time: 0.750531, dt: 0.108206, num: 4224
+loop: 8, time: 0.860227, dt: 0.109696, num: 4224
+loop: 9, time: 0.970549, dt: 0.110322, num: 4224
+write results/00003.dat
+loop: 10, time: 1.08168, dt: 0.111134, num: 4224
+loop: 11, time: 1.19373, dt: 0.112051, num: 4224
+loop: 12, time: 1.30673, dt: 0.112995, num: 4224
+write results/00004.dat
+loop: 13, time: 1.42064, dt: 0.113907, num: 4224
+loop: 14, time: 1.53539, dt: 0.114752, num: 4224
+write results/00005.dat
+loop: 15, time: 1.65089, dt: 0.115506, num: 4224
+loop: 16, time: 1.76707, dt: 0.116175, num: 4224
+loop: 17, time: 1.88385, dt: 0.116784, num: 4224
+write results/00006.dat
+loop: 18, time: 2.00123, dt: 0.117374, num: 4224
+loop: 19, time: 2.1192, dt: 0.117972, num: 4224
+write results/00007.dat
+loop: 20, time: 2.23779, dt: 0.118591, num: 4224
+loop: 21, time: 2.35701, dt: 0.119222, num: 4224
+loop: 22, time: 2.47597, dt: 0.118954, num: 4224
+write results/00008.dat
+loop: 23, time: 2.59335, dt: 0.117382, num: 4224
+loop: 24, time: 2.70902, dt: 0.115677, num: 4224
+write results/00009.dat
+loop: 25, time: 2.82293, dt: 0.113901, num: 4224
+loop: 26, time: 2.93504, dt: 0.11212, num: 4224
+loop: 27, time: 3.04548, dt: 0.110435, num: 4224
+write results/00010.dat
+loop: 28, time: 3.15444, dt: 0.108963, num: 4224
+loop: 29, time: 3.26226, dt: 0.107819, num: 4224
+loop: 30, time: 3.36936, dt: 0.107099, num: 4224
+write results/00011.dat
+loop: 31, time: 3.47622, dt: 0.106854, num: 4224
+loop: 32, time: 3.58293, dt: 0.106713, num: 4224
+loop: 33, time: 3.68695, dt: 0.104021, num: 4224
+write results/00012.dat
+loop: 34, time: 3.78823, dt: 0.101283, num: 4224
+loop: 35, time: 3.88675, dt: 0.0985176, num: 4224
+loop: 36, time: 3.98257, dt: 0.0958205, num: 4224
+write results/00013.dat
+loop: 37, time: 4.07589, dt: 0.0933206, num: 4224
+loop: 38, time: 4.16701, dt: 0.0911146, num: 4224
+loop: 39, time: 4.2563, dt: 0.089298, num: 4224
+write results/00014.dat
+loop: 40, time: 4.34423, dt: 0.0879238, num: 4224
+loop: 41, time: 4.43126, dt: 0.08703, num: 4224
+loop: 42, time: 4.51786, dt: 0.0866067, num: 4224
+write results/00015.dat
+loop: 43, time: 4.60449, dt: 0.0866216, num: 4224
+loop: 44, time: 4.6915, dt: 0.0870186, num: 4224
+loop: 45, time: 4.77922, dt: 0.087711, num: 4224
+loop: 46, time: 4.86784, dt: 0.0886206, num: 4224
+write results/00016.dat
+loop: 47, time: 4.95748, dt: 0.0896477, num: 4224
+loop: 48, time: 5.04816, dt: 0.0906761, num: 4224
+loop: 49, time: 5.13979, dt: 0.0916252, num: 4224
+write results/00017.dat
+loop: 50, time: 5.23222, dt: 0.0924317, num: 4224
+loop: 51, time: 5.32529, dt: 0.0930745, num: 4224
+loop: 52, time: 5.41884, dt: 0.0935504, num: 4224
+write results/00018.dat
+loop: 53, time: 5.51274, dt: 0.0938947, num: 4224
+loop: 54, time: 5.6069, dt: 0.0941628, num: 4224
+loop: 55, time: 5.7013, dt: 0.0944041, num: 4224
+write results/00019.dat
+loop: 56, time: 5.79596, dt: 0.0946614, num: 4224
+loop: 57, time: 5.89094, dt: 0.0949755, num: 4224
+loop: 58, time: 5.98631, dt: 0.0953681, num: 4224
+loop: 59, time: 6.08216, dt: 0.095854, num: 4224
+write results/00020.dat
+loop: 60, time: 6.17858, dt: 0.0964154, num: 4224
+loop: 61, time: 6.27563, dt: 0.0970547, num: 4224
+loop: 62, time: 6.37233, dt: 0.0966943, num: 4224
+write results/00021.dat
+loop: 63, time: 6.46874, dt: 0.096415, num: 4224
+loop: 64, time: 6.56509, dt: 0.096348, num: 4224
+loop: 65, time: 6.6616, dt: 0.09651, num: 4224
+write results/00022.dat
+loop: 66, time: 6.75851, dt: 0.0969105, num: 4224
+loop: 67, time: 6.85605, dt: 0.0975431, num: 4224
+loop: 68, time: 6.95445, dt: 0.0983996, num: 4224
+write results/00023.dat
+loop: 69, time: 7.05393, dt: 0.0994764, num: 4224
+loop: 70, time: 7.15469, dt: 0.100757, num: 4224
+loop: 71, time: 7.25697, dt: 0.102281, num: 4224
+write results/00024.dat
+loop: 72, time: 7.36103, dt: 0.104062, num: 4224
+loop: 73, time: 7.46709, dt: 0.106056, num: 4224
+loop: 74, time: 7.57534, dt: 0.108252, num: 4224
+write results/00025.dat
+loop: 75, time: 7.68588, dt: 0.110544, num: 4224
+loop: 76, time: 7.79801, dt: 0.112126, num: 4224
+loop: 77, time: 7.91184, dt: 0.113831, num: 4224
+write results/00026.dat
+loop: 78, time: 8.02749, dt: 0.115647, num: 4224
+loop: 79, time: 8.14505, dt: 0.117564, num: 4224
+write results/00027.dat
+loop: 80, time: 8.26462, dt: 0.11957, num: 4224
+loop: 81, time: 8.38627, dt: 0.121649, num: 4224
+loop: 82, time: 8.51005, dt: 0.123784, num: 4224
+write results/00028.dat
+loop: 83, time: 8.63601, dt: 0.125955, num: 4224
+loop: 84, time: 8.76415, dt: 0.128143, num: 4224
+write results/00029.dat
+loop: 85, time: 8.89448, dt: 0.130328, num: 4224
+loop: 86, time: 9.02697, dt: 0.13249, num: 4224
+write results/00030.dat
+loop: 87, time: 9.16158, dt: 0.134616, num: 4224
+loop: 88, time: 9.29828, dt: 0.136694, num: 4224
+loop: 89, time: 9.43696, dt: 0.138683, num: 4224
+write results/00031.dat
+loop: 90, time: 9.5772, dt: 0.140237, num: 4224
+loop: 91, time: 9.71889, dt: 0.141689, num: 4224
+write results/00032.dat
+loop: 92, time: 9.86192, dt: 0.143033, num: 4224
+loop: 93, time: 10.0062, dt: 0.14426, num: 4224
+write results/00033.dat
+loop: 94, time: 10.1515, dt: 0.145362, num: 4224
+loop: 95, time: 10.2979, dt: 0.146314, num: 4224
+write results/00034.dat
+loop: 96, time: 10.4438, dt: 0.145956, num: 4224
+loop: 97, time: 10.5892, dt: 0.145415, num: 4224
+write results/00035.dat
+loop: 98, time: 10.7341, dt: 0.144823, num: 4224
+loop: 99, time: 10.8783, dt: 0.144247, num: 4224
+write results/00036.dat
+loop: 100, time: 11.0221, dt: 0.143759, num: 4224
+loop: 101, time: 11.1654, dt: 0.143375, num: 4224
+write results/00037.dat
+loop: 102, time: 11.3087, dt: 0.143228, num: 4224
+loop: 103, time: 11.452, dt: 0.143301, num: 4224
+write results/00038.dat
+loop: 104, time: 11.5956, dt: 0.143618, num: 4224
+loop: 105, time: 11.7398, dt: 0.144193, num: 4224
+write results/00039.dat
+loop: 106, time: 11.8848, dt: 0.145052, num: 4224
+loop: 107, time: 12.031, dt: 0.146185, num: 4224
+write results/00040.dat
+loop: 108, time: 12.1786, dt: 0.147557, num: 4224
+loop: 109, time: 12.3278, dt: 0.149233, num: 4224
+write results/00041.dat
+loop: 110, time: 12.479, dt: 0.151165, num: 4224
+loop: 111, time: 12.6322, dt: 0.153277, num: 4224
+write results/00042.dat
+loop: 112, time: 12.7878, dt: 0.155517, num: 4224
+loop: 113, time: 12.9456, dt: 0.157828, num: 4224
+write results/00043.dat
+loop: 114, time: 13.1058, dt: 0.160178, num: 4224
+loop: 115, time: 13.2682, dt: 0.162481, num: 4224
+write results/00044.dat
+loop: 116, time: 13.4329, dt: 0.164703, num: 4224
+loop: 117, time: 13.5997, dt: 0.166792, num: 4224
+write results/00045.dat
+loop: 118, time: 13.7684, dt: 0.1687, num: 4224
+loop: 119, time: 13.9388, dt: 0.170408, num: 4224
+write results/00046.dat
+loop: 120, time: 14.1107, dt: 0.171884, num: 4224
+write results/00047.dat
+loop: 121, time: 14.2839, dt: 0.173133, num: 4224
+loop: 122, time: 14.458, dt: 0.174166, num: 4224
+write results/00048.dat
+loop: 123, time: 14.633, dt: 0.175009, num: 4224
+loop: 124, time: 14.8087, dt: 0.175696, num: 4224
+write results/00049.dat
+loop: 125, time: 14.985, dt: 0.176241, num: 4224
+loop: 126, time: 15.1616, dt: 0.176655, num: 4224
+write results/00050.dat
+loop: 127, time: 15.3386, dt: 0.176981, num: 4224
+write results/00051.dat
+loop: 128, time: 15.519, dt: 0.1804, num: 4224
+loop: 129, time: 15.6992, dt: 0.180171, num: 4224
+write results/00052.dat
+loop: 130, time: 15.8794, dt: 0.180172, num: 4224
+loop: 131, time: 16.0598, dt: 0.180455, num: 4224
+write results/00053.dat
+loop: 132, time: 16.2408, dt: 0.180991, num: 4224
+write results/00054.dat
+loop: 133, time: 16.4228, dt: 0.181994, num: 4224
+loop: 134, time: 16.6063, dt: 0.183525, num: 4224
+write results/00055.dat
+loop: 135, time: 16.7918, dt: 0.185522, num: 4224
+loop: 136, time: 16.9798, dt: 0.187956, num: 4224
+write results/00056.dat
+loop: 137, time: 17.1537, dt: 0.173858, num: 4224
+write results/00057.dat
+loop: 138, time: 17.3305, dt: 0.176813, num: 4224
+loop: 139, time: 17.5107, dt: 0.180212, num: 4224
+write results/00058.dat
+loop: 140, time: 17.6949, dt: 0.184179, num: 4224
+loop: 141, time: 17.8836, dt: 0.188696, num: 4224
+write results/00059.dat
+loop: 142, time: 18.0773, dt: 0.193748, num: 4224
+write results/00060.dat
+loop: 143, time: 18.2768, dt: 0.199458, num: 4224
+loop: 144, time: 18.4809, dt: 0.204093, num: 4224
+write results/00061.dat
+loop: 145, time: 18.6867, dt: 0.205804, num: 4224
+write results/00062.dat
+loop: 146, time: 18.8943, dt: 0.207591, num: 4224
+loop: 147, time: 19.1037, dt: 0.209484, num: 4224
+write results/00063.dat
+loop: 148, time: 19.3152, dt: 0.211455, num: 4224
+write results/00064.dat
+loop: 149, time: 19.5287, dt: 0.213537, num: 4224
+write results/00065.dat
+loop: 150, time: 19.7445, dt: 0.215754, num: 4224
+loop: 151, time: 19.9626, dt: 0.218154, num: 4224
+write results/00066.dat
+loop: 152, time: 20.1834, dt: 0.220772, num: 4224
+write results/00067.dat
+loop: 153, time: 20.407, dt: 0.223617, num: 4224
+write results/00068.dat
+loop: 154, time: 20.6337, dt: 0.22669, num: 4224
+loop: 155, time: 20.8637, dt: 0.229939, num: 4224
+write results/00069.dat
+loop: 156, time: 21.097, dt: 0.2333, num: 4224
+write results/00070.dat
+loop: 157, time: 21.3337, dt: 0.236713, num: 4224
+write results/00071.dat
+loop: 158, time: 21.5738, dt: 0.2401, num: 4224
+loop: 159, time: 21.8172, dt: 0.243401, num: 4224
+write results/00072.dat
+loop: 160, time: 22.0637, dt: 0.246558, num: 4224
+write results/00073.dat
+loop: 161, time: 22.3133, dt: 0.24954, num: 4224
+write results/00074.dat
+loop: 162, time: 22.5655, dt: 0.25225, num: 4224
+write results/00075.dat
+loop: 163, time: 22.8202, dt: 0.254669, num: 4224
+write results/00076.dat
+loop: 164, time: 23.077, dt: 0.256776, num: 4224
+loop: 165, time: 23.3355, dt: 0.258543, num: 4224
+write results/00077.dat
+loop: 166, time: 23.5955, dt: 0.259968, num: 4224
+write results/00078.dat
+loop: 167, time: 23.8565, dt: 0.26107, num: 4224
+write results/00079.dat
+loop: 168, time: 24.1184, dt: 0.261881, num: 4224
+write results/00080.dat
+loop: 169, time: 24.3808, dt: 0.262387, num: 4224
+write results/00081.dat
+loop: 170, time: 24.6436, dt: 0.262745, num: 4224
+write results/00082.dat
+loop: 171, time: 24.9063, dt: 0.262788, num: 4224
+write results/00083.dat
+loop: 172, time: 25.1688, dt: 0.262422, num: 4224
+loop: 173, time: 25.4308, dt: 0.262062, num: 4224
+write results/00084.dat
+loop: 174, time: 25.6926, dt: 0.261774, num: 4224
+write results/00085.dat
+loop: 175, time: 25.9542, dt: 0.261568, num: 4224
+write results/00086.dat
+loop: 176, time: 26.2156, dt: 0.26146, num: 4224
+write results/00087.dat
+loop: 177, time: 26.4771, dt: 0.261437, num: 4224
+write results/00088.dat
+loop: 178, time: 26.7386, dt: 0.261549, num: 4224
+write results/00089.dat
+loop: 179, time: 27.0004, dt: 0.261775, num: 4224
+write results/00090.dat
+loop: 180, time: 27.2623, dt: 0.261928, num: 4224
+loop: 181, time: 27.5244, dt: 0.262099, num: 4224
+write results/00091.dat
+loop: 182, time: 27.7867, dt: 0.262265, num: 4224
+write results/00092.dat
+loop: 183, time: 28.0491, dt: 0.262377, num: 4224
+write results/00093.dat
+loop: 184, time: 28.3115, dt: 0.262444, num: 4224
+write results/00094.dat
+loop: 185, time: 28.574, dt: 0.262481, num: 4224
+write results/00095.dat
+loop: 186, time: 28.8365, dt: 0.262488, num: 4224
+write results/00096.dat
+loop: 187, time: 29.099, dt: 0.2625, num: 4224
+loop: 188, time: 29.3614, dt: 0.26247, num: 4224
+write results/00097.dat
+loop: 189, time: 29.6238, dt: 0.262318, num: 4224
+write results/00098.dat
+loop: 190, time: 29.8859, dt: 0.262111, num: 4224
+write results/00099.dat
+loop: 191, time: 30.1477, dt: 0.261853, num: 4224
+write results/00100.dat
+
+calculation is finished
+calculation time: 27448 ms
