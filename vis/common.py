@@ -226,19 +226,6 @@ def load_dataframes_3d(data_path, file_extension="*.dat"):
     return dataframes, times
 
 
-def add_sph_formulas(ax):
-    """
-    Add SPH formulas text to an axis.
-    """
-    text = (
-            r"Standard SPH: $\rho_i=\sum_j m_j\,W(|\mathbf{r}_i-\mathbf{r}_j|, h)$" "\n" +
-            r"Density Ind. SPH: $P_i=P_0(\hat{\rho}_i/\rho_0)^\gamma$, "
-            r"$\hat{\rho}_i=\sum_j m_j (A_j/A_i)^{1/\gamma}\,W(|\mathbf{r}_i-\mathbf{r}_j|, h)$"
-    )
-    ax.text(0.05, -0.55, text, transform=ax.transAxes, fontsize=8,
-            verticalalignment='bottom', bbox=dict(facecolor='white', alpha=0.7))
-
-
 def plot_intersection_along_line(df, line_start, line_end, tol=0.1, physics_keys=["dens", "vel", "pres"],
                                  show_plot=True):
     """
