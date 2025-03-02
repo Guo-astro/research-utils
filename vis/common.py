@@ -41,6 +41,48 @@ def filter_files(file_list):
     return filtered
 
 
+def parse_header(file):
+    """
+    Look for header lines in a data file that specify the column names.
+    Searches for lines starting with "# Columns:" and "# Additional arrays:".
+    Returns a list of column names if found, or None otherwise.
+    """
+    col_names = None
+    add_names = []
+    with open(file, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line.startswith("# Columns:"):
+                # Remove prefix and split by comma.
+                line_content = line[len("# Columns:"):].strip()
+                cols = [c.strip() for c in line_content.split(",")]
+                # Ignore any column that starts with "..." (e.g. "...additional?")
+                cols = [c for c in cols if not c.startswith("...")]
+                # Remove units (assumes first token is the column name)
+                cols = [c.split()[0] for c in cols if c]
+                col_names = cols
+            elif line.startswith("# Additional arrays:"):
+                line_content = line[len("# Additional arrays:"):].strip()
+                # Split by whitespace.
+                add_fields = line_content.split()
+                # For each additional array, if it is a vector, append component names.
+                for field in add_fields:
+                    # Remove punctuation, if any.
+                    field = field.strip(",")
+                    if "(vector)" in field:
+                        base = field.split("(")[0]
+                        # For 2D data, assume 2 components (_x and _y)
+                        add_names.extend([f"{base}_x", f"{base}_y"])
+                    else:
+                        add_names.append(field)
+            elif not line.startswith("#"):
+                # Once we reach a non-header line, stop reading.
+                break
+    if col_names is None:
+        return None
+    return col_names + add_names
+
+
 def load_dataframes_1d(data_path, file_extension="*.dat"):
     """
     Load 1D data files from the specified directory.
@@ -78,7 +120,10 @@ def load_dataframes_2d(data_path, file_extension="*.dat"):
     """
     Load 2D data files from the specified directory.
 
-    Expected 2D files have 15 columns:
+    If the file header contains a line starting with "# Columns:" (and optionally
+    "# Additional arrays:"), those names will be used. Otherwise, a default set of
+    15 columns is assumed:
+
       ["pos_x", "pos_y", "vel_x", "vel_y", "acc_x", "acc_y",
        "mass", "dens", "pres", "ene", "sml", "id", "neighbor", "alpha", "gradh"]
 
@@ -92,7 +137,8 @@ def load_dataframes_2d(data_path, file_extension="*.dat"):
     print(f"Found {len(file_list)} 2D files in {data_path}.")
 
     times = [extract_time(file) for file in file_list]
-    columns = [
+    # Default columns for 2D if header is not present.
+    default_columns = [
         "pos_x", "pos_y",
         "vel_x", "vel_y",
         "acc_x", "acc_y",
@@ -104,7 +150,16 @@ def load_dataframes_2d(data_path, file_extension="*.dat"):
     ]
     dataframes = []
     for file in file_list:
-        df = pd.read_csv(file, sep=r'\s+', comment='#', header=None, names=columns)
+        # Try to parse header to get column names.
+        cols = parse_header(file)
+        if cols is None:
+            cols = default_columns
+        df = pd.read_csv(file, sep=r'\s+', comment='#', header=None, names=cols)
+        # In case the data file has extra columns not covered by header,
+        # warn and use only the first len(cols) columns.
+        if df.shape[1] > len(cols):
+            print(f"Warning: File '{file}' has {df.shape[1]} columns; using first {len(cols)} columns.")
+            df = df.iloc[:, :len(cols)]
         large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
         if large_indices:
             print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
@@ -208,7 +263,7 @@ def plot_intersection_along_line(df, line_start, line_end, tol=0.1, physics_keys
     d_norm = np.linalg.norm(d)
     if d_norm == 0:
         raise ValueError("line_start and line_end must be different.")
-    # Compute projection parameter t for each point (scalar along the line)
+    # Compute projection parameter t for each point.
     t = np.dot(points - p1, d) / (d_norm ** 2)
     proj = p1 + np.outer(t, d)
     dist = np.linalg.norm(points - proj, axis=1)
