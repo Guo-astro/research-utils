@@ -137,28 +137,28 @@ def analytic_sod_solution(x, t, gamma=1.4, x0=0.5):
     return rho, p, u
 
 
-# Define spatial domain and time
-x = np.linspace(0, 1, 500)  # simulation domain from 0 to 1
-t = 0.5  # time at which solution is evaluated
-gamma = 1.4
-x0 = 0.5  # initial discontinuity is at x=0.5
-
-# Compute the analytic solution with the updated conditions
-rho, p, u = analytic_sod_solution(x, t, gamma, x0)
-
-# Plotting the analytic solution
-fig, axs = plt.subplots(3, 1, figsize=(8, 12), sharex=True)
-
-axs[0].plot(x, rho, 'k-', lw=2)
-axs[0].set_ylabel('Density')
-axs[0].set_title(f'Analytic Shock Tube at t = {t}')
-
-axs[1].plot(x, p, 'k-', lw=2)
-axs[1].set_ylabel('Pressure')
-
-axs[2].plot(x, u, 'k-', lw=2)
-axs[2].set_ylabel('Velocity')
-axs[2].set_xlabel('x')
-
-plt.tight_layout()
-plt.show()
+# # Define spatial domain and time
+# x = np.linspace(0, 1, 500)  # simulation domain from 0 to 1
+# t = 0.5  # time at which solution is evaluated
+# gamma = 1.4
+# x0 = 0.5  # initial discontinuity is at x=0.5
+#
+# # Compute the analytic solution with the updated conditions
+# rho, p, u = analytic_sod_solution(x, t, gamma, x0)
+#
+# # Plotting the analytic solution
+# fig, axs = plt.subplots(3, 1, figsize=(8, 12), sharex=True)
+#
+# axs[0].plot(x, rho, 'k-', lw=2)
+# axs[0].set_ylabel('Density')
+# axs[0].set_title(f'Analytic Shock Tube at t = {t}')
+#
+# axs[1].plot(x, p, 'k-', lw=2)
+# axs[1].set_ylabel('Pressure')
+#
+# axs[2].plot(x, u, 'k-', lw=2)
+# axs[2].set_ylabel('Velocity')
+# axs[2].set_xlabel('x')
+#
+# plt.tight_layout()
+# plt.show()

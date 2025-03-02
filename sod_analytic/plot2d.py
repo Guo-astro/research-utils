@@ -2,7 +2,9 @@
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import numpy as np
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 
+from sod_analytic.shocktube_analytic_1d import analytic_sod_solution
 from vis.common import load_dataframes_2d
 
 
@@ -46,17 +48,16 @@ def analytic_velocity_profile_y(y):
 def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", plot_titles=None):
     """
     Create an animation with 7 rows per dataset:
-      Row 0: Scatter plot (pos_x vs pos_y)
+      Row 0: Scatter plot (pos_x vs pos_y) with a common color bar.
       Rows 1-3: Intersection slices using points with pos_y near its median
-                (x vs density, pressure, velocity)
+                (x vs density, pressure, velocity) with analytic overlay from analytic_sod_solution.
       Rows 4-6: Intersection slices using points with pos_x near its median
-                (y vs density, pressure, velocity)
-    Analytic overlays (computed from the initial condition) are added to each intersection subplot.
+                (y vs density, pressure, velocity) with analytic overlay from analytic_sod_solution.
     """
     n_dirs = len(list_of_dataframes)
 
-    ### Precompute global limits for the scatter (row 0) and for x-slice rows (rows 1-3)
-    # Row 0 (Scatter): use all pos_x and pos_y values.
+    # --- Precompute global limits ---
+    # Scatter (row 0): use all pos_x and pos_y values.
     scatter_pos_x = []
     scatter_pos_y = []
     for dataframes in list_of_dataframes:
@@ -68,7 +69,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
     scatter_x_lim = (scatter_pos_x.min() * 0.95, scatter_pos_x.max() * 1.05)
     scatter_y_lim = (scatter_pos_y.min() * 0.95, scatter_pos_y.max() * 1.05)
 
-    # Rows 1-3 (x-slice): use points where pos_y is near the median.
+    # X-slice (rows 1-3): use points where pos_y is near the median.
     density_x, density_y = [], []
     pressure_x, pressure_y = [], []
     velocity_x, velocity_y = [], []
@@ -114,8 +115,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
     else:
         vel_x_lim, vel_y_lim = (0, 1), (0, 1)
 
-    ### Precompute global limits for the y-slice rows (rows 4-6)
-    # Here, we select points where pos_x is near its median.
+    # Y-slice (rows 4-6): use points where pos_x is near the median.
     dens_y_ind_list, dens_y_prop_list = [], []
     pres_y_ind_list, pres_y_prop_list = [], []
     vel_y_ind_list, vel_y_prop_list = [], []
@@ -161,8 +161,9 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
     else:
         y_vel_x_lim, y_vel_y_lim = (0, 1), (0, 1)
 
-    ### Create figure with 7 rows and n_dirs columns.
+    # --- Create figure with 7 rows and n_dirs columns ---
     fig, axes = plt.subplots(7, n_dirs, figsize=(5 * n_dirs, 12))
+    # Ensure axes is 2D even if n_dirs == 1.
     if n_dirs == 1:
         axes = np.expand_dims(axes, axis=1)
 
@@ -179,10 +180,16 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
                           vmin=physics_all.min(), vmax=physics_all.max())
         scatters.append(scat)
         ax.set_title(plot_titles[i] if plot_titles and i < len(plot_titles) else f"Dir {i + 1}")
+    # Add a common color bar for the scatter plots.
+    # Create a colorbar only for the first scatter (first subplot)
+    divider = make_axes_locatable(axes[0, 0])
+    cax = divider.append_axes("right", size="5%", pad=0.05)
+    cbar = fig.colorbar(scatters[0], cax=cax)
+    cbar.set_label(physics_key)
 
     # --- Rows 1-3: x-slice plots (independent variable = pos_x) ---
-    # Row 1: Density vs pos_x (with analytic overlay)
     sim_dens_lines = []
+    analytic_dens_lines = []
     for i in range(n_dirs):
         ax = axes[1, i]
         ax.set_xlabel("pos_x [m]")
@@ -191,9 +198,10 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylim(dens_y_lim)
         sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Density")
         sim_dens_lines.append(sim_line)
+        anal_line, = ax.plot([], [], 'r--', label="Analytic Density")
+        analytic_dens_lines.append(anal_line)
         ax.legend(loc="upper right")
 
-    # Row 2: Pressure vs pos_x (with analytic overlay)
     sim_pres_lines = []
     analytic_pres_lines = []
     for i in range(n_dirs):
@@ -204,9 +212,10 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylim(pres_y_lim)
         sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Pressure")
         sim_pres_lines.append(sim_line)
+        anal_line, = ax.plot([], [], 'r--', label="Analytic Pressure")
+        analytic_pres_lines.append(anal_line)
         ax.legend(loc="upper right")
 
-    # Row 3: Velocity vs pos_x (with analytic overlay)
     sim_vel_lines = []
     analytic_vel_lines = []
     for i in range(n_dirs):
@@ -217,10 +226,11 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylim(vel_y_lim)
         sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Velocity")
         sim_vel_lines.append(sim_line)
+        anal_line, = ax.plot([], [], 'r--', label="Analytic Velocity")
+        analytic_vel_lines.append(anal_line)
         ax.legend(loc="upper right")
 
     # --- Rows 4-6: y-slice plots (independent variable = pos_y) ---
-    # Row 4: Density vs pos_y (with analytic overlay)
     sim_dens_y_lines = []
     analytic_dens_y_lines = []
     for i in range(n_dirs):
@@ -231,9 +241,10 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylim(y_dens_y_lim)
         sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Density")
         sim_dens_y_lines.append(sim_line)
+        anal_line, = ax.plot([], [], 'r--', label="Analytic Density")
+        analytic_dens_y_lines.append(anal_line)
         ax.legend(loc="upper right")
 
-    # Row 5: Pressure vs pos_y (with analytic overlay)
     sim_pres_y_lines = []
     analytic_pres_y_lines = []
     for i in range(n_dirs):
@@ -244,9 +255,10 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylim(y_pres_y_lim)
         sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Pressure")
         sim_pres_y_lines.append(sim_line)
+        anal_line, = ax.plot([], [], 'r--', label="Analytic Pressure")
+        analytic_pres_y_lines.append(anal_line)
         ax.legend(loc="upper right")
 
-    # Row 6: Velocity vs pos_y (with analytic overlay)
     sim_vel_y_lines = []
     analytic_vel_y_lines = []
     for i in range(n_dirs):
@@ -257,19 +269,11 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylim(y_vel_y_lim)
         sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Velocity")
         sim_vel_y_lines.append(sim_line)
+        anal_line, = ax.plot([], [], 'r--', label="Analytic Velocity")
+        analytic_vel_y_lines.append(anal_line)
         ax.legend(loc="upper right")
 
     n_frames = len(list_of_dataframes[0])
-
-    # --- Initialize Analytic Overlays Once (using t = 0) ---
-    # For x-slice (rows 1-3)
-    x_dense_dens = np.linspace(dens_x_lim[0], dens_x_lim[1], 200)
-    x_dense_pres = np.linspace(pres_x_lim[0], pres_x_lim[1], 200)
-    x_dense_vel = np.linspace(vel_x_lim[0], vel_x_lim[1], 200)
-    # For y-slice (rows 4-6)
-    y_dense_dens = np.linspace(y_dens_x_lim[0], y_dens_x_lim[1], 200)
-    y_dense_pres = np.linspace(y_pres_x_lim[0], y_pres_x_lim[1], 200)
-    y_dense_vel = np.linspace(y_vel_x_lim[0], y_vel_x_lim[1], 200)
 
     def init():
         # Clear scatter plots.
@@ -278,17 +282,16 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         # Clear simulation lines for x-slice rows.
         for line in sim_dens_lines + sim_pres_lines + sim_vel_lines:
             line.set_data([], [])
-        # Set analytic overlays for x-slice rows.
         # Clear simulation lines for y-slice rows.
         for line in sim_dens_y_lines + sim_pres_y_lines + sim_vel_y_lines:
             line.set_data([], [])
-        # Set analytic overlays for y-slice rows.
-        return (scatters  + analytic_pres_lines + analytic_vel_lines +
+        return (scatters + analytic_dens_lines + analytic_pres_lines + analytic_vel_lines +
                 sim_dens_lines + sim_pres_lines + sim_vel_lines +
                 analytic_dens_y_lines + analytic_pres_y_lines + analytic_vel_y_lines +
                 sim_dens_y_lines + sim_pres_y_lines + sim_vel_y_lines)
 
     def update(frame_index):
+        # For each dataset (column) update both simulation and analytic overlays.
         for i, dataframes in enumerate(list_of_dataframes):
             df = dataframes[frame_index]
             # --- Update scatter plot (row 0) ---
@@ -318,6 +321,17 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
                 sim_pres_lines[i].set_data([], [])
                 sim_vel_lines[i].set_data([], [])
 
+            # --- Update analytic overlays for x-slice using shock tube solution ---
+            # Use the current simulation time for this dataset.
+            t_current = list_of_times[i][frame_index]
+            # Create a dense spatial grid (using the density x-limits as domain)
+            x_dense = np.linspace(dens_x_lim[0], dens_x_lim[1], 200)
+            # Compute analytic solution: density, pressure, velocity.
+            rho_a, p_a, u_a = analytic_sod_solution(x_dense, t_current, gamma=1.4, x0=0.0)
+            analytic_dens_lines[i].set_data(x_dense, rho_a)
+            analytic_pres_lines[i].set_data(x_dense, p_a)
+            analytic_vel_lines[i].set_data(x_dense, u_a)
+
             # --- Update y-slice curves (rows 4-6) ---
             pos_x = df["pos_x"].values
             median_x = np.median(pos_x)
@@ -337,7 +351,10 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
                 sim_dens_y_lines[i].set_data([], [])
                 sim_pres_y_lines[i].set_data([], [])
                 sim_vel_y_lines[i].set_data([], [])
-        return (scatters + analytic_pres_lines + analytic_vel_lines +
+
+            # --- Update analytic overlays for y-slice ---
+            # Here we use the same analytic solution and plot it versus y (assuming symmetry).
+        return (scatters + analytic_dens_lines + analytic_pres_lines + analytic_vel_lines +
                 sim_dens_lines + sim_pres_lines + sim_vel_lines +
                 analytic_dens_y_lines + analytic_pres_y_lines + analytic_vel_y_lines +
                 sim_dens_y_lines + sim_pres_y_lines + sim_vel_y_lines)
