@@ -283,7 +283,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         for line in sim_dens_y_lines + sim_pres_y_lines + sim_vel_y_lines:
             line.set_data([], [])
         # Set analytic overlays for y-slice rows.
-        return (scatters + analytic_dens_lines + analytic_pres_lines + analytic_vel_lines +
+        return (scatters  + analytic_pres_lines + analytic_vel_lines +
                 sim_dens_lines + sim_pres_lines + sim_vel_lines +
                 analytic_dens_y_lines + analytic_pres_y_lines + analytic_vel_y_lines +
                 sim_dens_y_lines + sim_pres_y_lines + sim_vel_y_lines)
