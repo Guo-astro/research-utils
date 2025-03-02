@@ -43,36 +43,56 @@ def filter_files(file_list):
 def parse_header(file):
     """
     Look for header lines in a data file that specify the column names.
-    Searches for lines starting with "# Columns:" and "# Additional arrays:".
-    Returns a list of column names if found, or None otherwise.
+    Searches for lines starting with "# Columns:" and optionally "# Additional arrays:".
 
-    If the header contains a token starting with "..." (e.g. "...additional?")
-    it is ignored. Also, if the base columns are defined without a vector suffix,
-    then for 1D data (i.e. when 12 base columns are expected) the first three columns
-    are renamed from "pos", "vel", "acc" to "pos_x", "vel_x", "acc_x".
+    For a new data format, if a token starting with "..." is found in the "# Columns:" line
+    (e.g., "...additional?"), the parser checks the first non-header data line.
+    If there are extra tokens beyond the base columns, generic names are generated for the additional data.
+
+    Also, if the base columns are defined without a vector suffix for 1D files,
+    the first three columns "pos", "vel", "acc" are renamed to "pos_x", "vel_x", "acc_x".
     """
     col_names = None
     add_names = []
     raw_add_fields = []
+    additional_flag = False  # flag for new format indicator in header
+
     with open(file, "r") as f:
         for line in f:
             line = line.strip()
             if line.startswith("# Columns:"):
-                # Remove prefix and split by comma.
                 line_content = line[len("# Columns:"):].strip()
-                cols = [c.strip() for c in line_content.split(",")]
-                # Filter out tokens starting with "..."
-                cols = [c for c in cols if not c.startswith("...")]
-                # Remove units by taking the first token
-                cols = [c.split()[0] for c in cols if c]
-                col_names = cols
+                tokens = [c.strip() for c in line_content.split(",")]
+                base_cols = []
+                for token in tokens:
+                    # If a token starts with "..." (e.g. "...additional?"), set flag to process extra columns.
+                    if token.startswith("..."):
+                        additional_flag = True
+                    else:
+                        # Remove units (anything after a space) and use the first token.
+                        base_cols.append(token.split()[0])
+                col_names = base_cols
             elif line.startswith("# Additional arrays:"):
                 line_content = line[len("# Additional arrays:"):].strip()
                 raw_add_fields = line_content.split()
             elif not line.startswith("#"):
                 break
 
-    # Process additional arrays if provided.
+    # If the new additional flag is set, check for extra tokens in the first non-header data line.
+    if additional_flag:
+        actual_tokens = None
+        with open(file, "r") as f:
+            for line in f:
+                if not line.startswith("#"):
+                    tokens = line.strip().split()
+                    actual_tokens = len(tokens)
+                    break
+        if actual_tokens is not None and actual_tokens > len(col_names):
+            extra_count = actual_tokens - len(col_names)
+            additional_columns = [f"additional_{i + 1}" for i in range(extra_count)]
+            col_names += additional_columns
+
+    # Process additional arrays if provided via "# Additional arrays:".
     if raw_add_fields:
         # Get token count from the first non-header data line.
         actual_tokens = None
@@ -103,7 +123,6 @@ def parse_header(file):
                 field = field.strip(",")
                 if "(vector)" in field:
                     base = field.split("(")[0]
-                    # For 2D data, assume 2 components (_x and _y)
                     add_names.extend([f"{base}_x", f"{base}_y"])
                 else:
                     add_names.append(field)
@@ -117,7 +136,6 @@ def parse_header(file):
                     add_names.extend([f"{base}_x", f"{base}_y"])
                 else:
                     add_names.append(field)
-
     # Combine base columns and additional arrays.
     if col_names:
         # For 1D files, if 12 base columns are expected but header has "pos", "vel", "acc" instead of "pos_x", etc., fix that.
