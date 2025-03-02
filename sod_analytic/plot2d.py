@@ -180,11 +180,9 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
                           vmin=physics_all.min(), vmax=physics_all.max())
         scatters.append(scat)
         ax.set_title(plot_titles[i] if plot_titles and i < len(plot_titles) else f"Dir {i + 1}")
-    # Add a common color bar for the scatter plots.
-    # Create a colorbar only for the first scatter (first subplot)
-    divider = make_axes_locatable(axes[0, 0])
-    cax = divider.append_axes("right", size="5%", pad=0.05)
-    cbar = fig.colorbar(scatters[0], cax=cax)
+
+    # Add a common colorbar to the right of the scatter plots without taking subplot space
+    cbar = fig.colorbar(scatters[-1], ax=axes[0, :], shrink=0.8, aspect=20, pad=0)
     cbar.set_label(physics_key)
 
     # --- Rows 1-3: x-slice plots (independent variable = pos_x) ---
@@ -196,7 +194,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylabel("Density")
         ax.set_xlim(dens_x_lim)
         ax.set_ylim(dens_y_lim)
-        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Density")
+        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Simulaton Density")
         sim_dens_lines.append(sim_line)
         anal_line, = ax.plot([], [], 'r--', label="Analytic Density")
         analytic_dens_lines.append(anal_line)
@@ -210,7 +208,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylabel("Pressure")
         ax.set_xlim(pres_x_lim)
         ax.set_ylim(pres_y_lim)
-        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Pressure")
+        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Simulaton Pressure")
         sim_pres_lines.append(sim_line)
         anal_line, = ax.plot([], [], 'r--', label="Analytic Pressure")
         analytic_pres_lines.append(anal_line)
@@ -224,7 +222,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylabel("Velocity")
         ax.set_xlim(vel_x_lim)
         ax.set_ylim(vel_y_lim)
-        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Velocity")
+        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Simulaton Velocity")
         sim_vel_lines.append(sim_line)
         anal_line, = ax.plot([], [], 'r--', label="Analytic Velocity")
         analytic_vel_lines.append(anal_line)
@@ -239,7 +237,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylabel("Density")
         ax.set_xlim(y_dens_x_lim)
         ax.set_ylim(y_dens_y_lim)
-        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Density")
+        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Simulaton Density")
         sim_dens_y_lines.append(sim_line)
         anal_line, = ax.plot([], [], 'r--', label="Analytic Density")
         analytic_dens_y_lines.append(anal_line)
@@ -253,7 +251,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylabel("Pressure")
         ax.set_xlim(y_pres_x_lim)
         ax.set_ylim(y_pres_y_lim)
-        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Pressure")
+        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Simulaton Pressure")
         sim_pres_y_lines.append(sim_line)
         anal_line, = ax.plot([], [], 'r--', label="Analytic Pressure")
         analytic_pres_y_lines.append(anal_line)
@@ -267,7 +265,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
         ax.set_ylabel("Velocity")
         ax.set_xlim(y_vel_x_lim)
         ax.set_ylim(y_vel_y_lim)
-        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Sim Velocity")
+        sim_line, = ax.plot([], [], marker='o', linestyle='-', label="Simulaton Velocity")
         sim_vel_y_lines.append(sim_line)
         anal_line, = ax.plot([], [], 'r--', label="Analytic Velocity")
         analytic_vel_y_lines.append(anal_line)
@@ -360,7 +358,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
                 sim_dens_y_lines + sim_pres_y_lines + sim_vel_y_lines)
 
     ani = FuncAnimation(fig, update, frames=n_frames, init_func=init, interval=100, blit=False)
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 0.8, 0.9])  # Adjusted to leave space for colorbar
     plt.show()
     return ani
 
