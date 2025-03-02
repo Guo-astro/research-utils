@@ -1,4 +1,3 @@
-# common.py
 import os
 import glob
 import re
@@ -46,9 +45,15 @@ def parse_header(file):
     Look for header lines in a data file that specify the column names.
     Searches for lines starting with "# Columns:" and "# Additional arrays:".
     Returns a list of column names if found, or None otherwise.
+
+    If the header contains a token starting with "..." (e.g. "...additional?")
+    it is ignored. Also, if the base columns are defined without a vector suffix,
+    then for 1D data (i.e. when 12 base columns are expected) the first three columns
+    are renamed from "pos", "vel", "acc" to "pos_x", "vel_x", "acc_x".
     """
     col_names = None
     add_names = []
+    raw_add_fields = []
     with open(file, "r") as f:
         for line in f:
             line = line.strip()
@@ -56,38 +61,80 @@ def parse_header(file):
                 # Remove prefix and split by comma.
                 line_content = line[len("# Columns:"):].strip()
                 cols = [c.strip() for c in line_content.split(",")]
-                # Ignore any column that starts with "..." (e.g. "...additional?")
+                # Filter out tokens starting with "..."
                 cols = [c for c in cols if not c.startswith("...")]
-                # Remove units (assumes first token is the column name)
+                # Remove units by taking the first token
                 cols = [c.split()[0] for c in cols if c]
                 col_names = cols
             elif line.startswith("# Additional arrays:"):
                 line_content = line[len("# Additional arrays:"):].strip()
-                # Split by whitespace.
-                add_fields = line_content.split()
-                # For each additional array, if it is a vector, append component names.
-                for field in add_fields:
-                    # Remove punctuation, if any.
-                    field = field.strip(",")
-                    if "(vector)" in field:
-                        base = field.split("(")[0]
-                        # For 2D data, assume 2 components (_x and _y)
-                        add_names.extend([f"{base}_x", f"{base}_y"])
-                    else:
-                        add_names.append(field)
+                raw_add_fields = line_content.split()
             elif not line.startswith("#"):
-                # Once we reach a non-header line, stop reading.
                 break
-    if col_names is None:
-        return None
-    return col_names + add_names
+
+    # Process additional arrays if provided.
+    if raw_add_fields:
+        # Get token count from the first non-header data line.
+        actual_tokens = None
+        with open(file, "r") as f:
+            for line in f:
+                if not line.startswith("#"):
+                    tokens = line.strip().split()
+                    actual_tokens = len(tokens)
+                    break
+        if actual_tokens is None:
+            actual_tokens = 0
+
+        num_base = len(col_names)
+        num_fields = len(raw_add_fields)
+        expected_vector = num_base + 2 * num_fields  # if each additional array is a vector
+        expected_scalar = num_base + num_fields  # if each additional array is a scalar
+
+        if actual_tokens == expected_scalar:
+            for field in raw_add_fields:
+                field = field.strip(",")
+                if "(vector)" in field:
+                    base = field.split("(")[0]
+                    add_names.append(base)
+                else:
+                    add_names.append(field)
+        elif actual_tokens == expected_vector:
+            for field in raw_add_fields:
+                field = field.strip(",")
+                if "(vector)" in field:
+                    base = field.split("(")[0]
+                    # For 2D data, assume 2 components (_x and _y)
+                    add_names.extend([f"{base}_x", f"{base}_y"])
+                else:
+                    add_names.append(field)
+        else:
+            print(
+                f"Warning: In file {file}, actual tokens ({actual_tokens}) don't match expected scalar ({expected_scalar}) or vector ({expected_vector}) count. Using vector interpretation by default.")
+            for field in raw_add_fields:
+                field = field.strip(",")
+                if "(vector)" in field:
+                    base = field.split("(")[0]
+                    add_names.extend([f"{base}_x", f"{base}_y"])
+                else:
+                    add_names.append(field)
+
+    # Combine base columns and additional arrays.
+    if col_names:
+        # For 1D files, if 12 base columns are expected but header has "pos", "vel", "acc" instead of "pos_x", etc., fix that.
+        if len(col_names) == 12 and col_names[0] == "pos":
+            col_names[0] = "pos_x"
+            col_names[1] = "vel_x"
+            col_names[2] = "acc_x"
+        return col_names + add_names
+    return None
 
 
 def load_dataframes_1d(data_path, file_extension="*.dat"):
     """
     Load 1D data files from the specified directory.
 
-    Expected 1D files have 12 columns:
+    If a header is present (with "# Columns:"), its names are used (with a fix if needed).
+    Otherwise, a default set of 12 columns is used:
       ["pos_x", "vel_x", "acc_x", "mass", "dens", "pres", "ene", "sml", "id", "neighbor", "alpha", "gradh"]
 
     Returns:
@@ -100,15 +147,24 @@ def load_dataframes_1d(data_path, file_extension="*.dat"):
     print(f"Found {len(file_list)} 1D files in {data_path}.")
 
     times = [extract_time(file) for file in file_list]
-    columns = [
+    dataframes = []
+    default_columns = [
         "pos_x", "vel_x", "acc_x",
         "mass", "dens", "pres", "ene",
         "sml", "id", "neighbor", "alpha", "gradh"
     ]
-    dataframes = []
     for file in file_list:
-        df = pd.read_csv(file, sep=r'\s+', comment='#', header=None, names=columns)
-        # Debug: Check for unusually large pos_x values.
+        cols = parse_header(file)
+        if cols is None:
+            cols = default_columns
+        # In case the header is present but doesn't include the 1D suffixes
+        if len(cols) >= 3 and cols[0] == "pos" and "pos_x" not in cols:
+            cols[0] = "pos_x"
+        if len(cols) >= 3 and cols[1] == "vel" and "vel_x" not in cols:
+            cols[1] = "vel_x"
+        if len(cols) >= 3 and cols[2] == "acc" and "acc_x" not in cols:
+            cols[2] = "acc_x"
+        df = pd.read_csv(file, sep=r'\s+', comment='#', header=None, names=cols)
         large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
         if large_indices:
             print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
@@ -137,7 +193,6 @@ def load_dataframes_2d(data_path, file_extension="*.dat"):
     print(f"Found {len(file_list)} 2D files in {data_path}.")
 
     times = [extract_time(file) for file in file_list]
-    # Default columns for 2D if header is not present.
     default_columns = [
         "pos_x", "pos_y",
         "vel_x", "vel_y",
@@ -150,13 +205,10 @@ def load_dataframes_2d(data_path, file_extension="*.dat"):
     ]
     dataframes = []
     for file in file_list:
-        # Try to parse header to get column names.
         cols = parse_header(file)
         if cols is None:
             cols = default_columns
         df = pd.read_csv(file, sep=r'\s+', comment='#', header=None, names=cols)
-        # In case the data file has extra columns not covered by header,
-        # warn and use only the first len(cols) columns.
         if df.shape[1] > len(cols):
             print(f"Warning: File '{file}' has {df.shape[1]} columns; using first {len(cols)} columns.")
             df = df.iloc[:, :len(cols)]

@@ -2,7 +2,7 @@
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import numpy as np
-from common import load_dataframes_3d, add_sph_formulas
+from common import load_dataframes_3d
 
 
 def animate_multiple_3d(list_of_dataframes, list_of_times, physics_key="dens", plot_titles=None):
@@ -37,7 +37,6 @@ def animate_multiple_3d(list_of_dataframes, list_of_times, physics_key="dens", p
         scat = ax3d.scatter([], [], [], s=3, c=[], cmap="viridis",
                             vmin=physics_all.min(), vmax=physics_all.max())
         ax3d.set_title(plot_titles[i] + " (3D)" if plot_titles and i < len(plot_titles) else f"Dir {i + 1}")
-        add_sph_formulas(ax3d)
         # Store the scatter in the axes for later update.
         ax3d._scatter_obj = scat
     # Bottom three rows: intersections (2D)
@@ -118,10 +117,9 @@ def animate_multiple_3d(list_of_dataframes, list_of_times, physics_key="dens", p
 def main():
     # Example usage for 3D plots.
     data_dirs = [
-        "/path/to/your/3d_dir1",
-        "/path/to/your/3d_dir2"
+        "/Users/guo/OSS/sphcode/results",
     ]
-    plot_titles = ["Dataset 1", "Dataset 2"]
+    plot_titles = ["Dataset 1"]
     list_of_dataframes = []
     list_of_times = []
     for data_path in data_dirs:
