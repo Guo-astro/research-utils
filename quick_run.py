@@ -308,7 +308,7 @@ def animate_3d(dataframes, times, physics_key="dens"):
 
 def main():
     # Select the plot type: "1d", "2d", or "3d"
-    plot_type = "3d"  # Change this to "1d", "2d" or "3d" as needed
+    plot_type = "1d"  # Change this to "1d", "2d" or "3d" as needed
 
     # Set the data directory and the physics variable for coloring (if applicable)
     data_path = "/Users/guo/OSS/sphcode/results"

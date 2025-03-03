@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 from sod_analytic.shocktube_analytic_2p5d import analytic_sod_solution_2p5d
+from sod_analytic.shocktube_strong_analytic_1d import analytic_sod_strong_solution_1d
 from vis.common import load_dataframes_1d
 
 
@@ -18,7 +19,7 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
     scatters = {'dens': [], 'pres': [], 'vel_x': []}
     lines = {'dens': [], 'pres': [], 'vel_x': []}
     y_labels = {'dens': 'dens [kg/m³]', 'pres': 'pres [Pa]', 'vel_x': 'vel_x [m/s]'}
-    gamma = 1.4  # From your config
+    gamma = 1.6666666  # From your config
 
     for i, dataframes in enumerate(list_of_dataframes):
         pos_x_all = np.concatenate([df["pos_x"].values for df in dataframes])
@@ -92,7 +93,7 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
             # Create a uniform grid across the simulation domain
             x_grid = np.linspace(sim_x.min(), sim_x.max(), 500)
             # Compute analytic solution on the uniform grid
-            rho_analytic, p_analytic, v_analytic = analytic_sod_solution_2p5d(x_grid, t, gamma)
+            rho_analytic, p_analytic, v_analytic = analytic_sod_strong_solution_1d(x_grid, t, gamma)
 
             # Update analytic lines using the grid data
             lines['dens'][i].set_data(x_grid, rho_analytic)
@@ -112,7 +113,8 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
 
 def main():
     data_dirs = [
-        "/Users/guo/research/sim_result_vis/result_data/1d_shocktube_disph_cubic/results",
+        "/Users/guo/research/sim_result_vis/result_data/1d_strongshock_gsph/results",
+        "/Users/guo/OSS/sphcode/results",
     ]
     plot_titles = ["Dataset 1"]
     list_of_dataframes = []
