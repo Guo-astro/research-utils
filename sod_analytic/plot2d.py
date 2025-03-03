@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-from sod_analytic.shocktube_analytic_1d import analytic_sod_solution
+from sod_analytic.shocktube_analytic_1d import analytic_sod_solution_1d
 from vis.common import load_dataframes_2d
 
 
@@ -325,7 +325,7 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
             # Create a dense spatial grid (using the density x-limits as domain)
             x_dense = np.linspace(dens_x_lim[0], dens_x_lim[1], 200)
             # Compute analytic solution: density, pressure, velocity.
-            rho_a, p_a, u_a = analytic_sod_solution(x_dense, t_current, gamma=1.4, x0=0.0)
+            rho_a, p_a, u_a = analytic_sod_solution_1d(x_dense, t_current, gamma=1.4, x0=0.0)
             analytic_dens_lines[i].set_data(x_dense, rho_a)
             analytic_pres_lines[i].set_data(x_dense, p_a)
             analytic_vel_lines[i].set_data(x_dense, u_a)

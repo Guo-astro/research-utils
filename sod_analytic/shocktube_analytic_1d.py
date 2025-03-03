@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def analytic_sod_solution(x, t, gamma=1.4, x0=0.5):
+def analytic_sod_solution_1d(x, t, gamma=1.4, x0=0.5):
     """
     Analytic solution for the shock tube problem using simulation initial conditions.
 
@@ -144,7 +144,7 @@ def analytic_sod_solution(x, t, gamma=1.4, x0=0.5):
 # x0 = 0.5  # initial discontinuity is at x=0.5
 #
 # # Compute the analytic solution with the updated conditions
-# rho, p, u = analytic_sod_solution(x, t, gamma, x0)
+# rho, p, u = analytic_sod_solution_1d(x, t, gamma, x0)
 #
 # # Plotting the analytic solution
 # fig, axs = plt.subplots(3, 1, figsize=(8, 12), sharex=True)
