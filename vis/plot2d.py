@@ -380,11 +380,13 @@ def main():
     # Example usage for 2D plots.
     data_dirs = [
         "/Users/guo/research/sim_result_vis/result_data/khi_disph/results",
-        "/Users/guo/research/sim_result_vis/result_data/khi_ssph/results",
-        "/Users/guo/research/sim_result_vis/result_data/khi_gsph/results",
-        "/Users/guo/research/sim_result_vis/result_data/khi_gsph_force_correction/results"
+        # "/Users/guo/research/sim_result_vis/result_data/khi_ssph/results",
+        # "/Users/guo/research/sim_result_vis/result_data/khi_gsph/results",
+        # "/Users/guo/research/sim_result_vis/result_data/khi_gsph_force_correction/results",
+        "/Users/guo/OSS/sphcode/sample/khi/results/GSPH/khi/2D",
+
     ]
-    plot_titles = ["DISPH", "SSPH", "GSPH", "GSPH_force_correction"]
+    plot_titles = ["DISPH", "GSPH_force_correction"]
     list_of_dataframes = []
     list_of_times = []
     for data_path in data_dirs:

@@ -114,7 +114,7 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
 def main():
     data_dirs = [
         "/Users/guo/research/sim_result_vis/result_data/1d_strongshock_gsph/results",
-        "/Users/guo/OSS/sphcode/results",
+        "/Users/guo/OSS/sphcode/sample/shock_tube_strong_shock/results/GSPH/shock_tube_strong_shock/1D"
     ]
     plot_titles = ["Dataset 1"]
     list_of_dataframes = []
