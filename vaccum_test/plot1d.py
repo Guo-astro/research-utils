@@ -2,8 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-from shocktube.sod_shocktube_1d.shocktube_strong_analytic_1d import analytic_sod_strong_solution_1d
-from vis.common import load_dataframes_1d
+from vaccum_test.vaccum1d import vacuum1d
+from vis.common import load_dataframes_1d, load_units_json, generate_title_from_dir
 
 
 def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
@@ -29,7 +29,7 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
         # Density subplot
         ax_dens = axes[0, i]
         ax_dens.set_xlim(pos_x_all.min() * 0.95, pos_x_all.max() * 1.05)
-        ax_dens.set_ylim(dens_all.min() * 0.95, dens_all.max() * 1.05)
+        ax_dens.set_ylim(-1.0, dens_all.max() * 1.05)
         ax_dens.set_ylabel(y_labels['dens'])
         scat_dens = ax_dens.scatter([], [], s=10, c="blue", label='Simulation')
         line_dens, = ax_dens.plot([], [], 'k-', label='Analytic')
@@ -43,7 +43,7 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
 
         # Pressure subplot
         ax_press = axes[1, i]
-        ax_press.set_ylim(press_all.min() * 0.95, press_all.max() * 1.05)
+        ax_press.set_ylim(-0.1, press_all.max() * 1.05)
         ax_press.set_ylabel(y_labels['pres'])
         scat_press = ax_press.scatter([], [], s=10, c="red", label='Simulation')
         line_press, = ax_press.plot([], [], 'k-', label='Analytic')
@@ -92,7 +92,7 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
             # Create a uniform grid across the simulation domain
             x_grid = np.linspace(sim_x.min(), sim_x.max(), 500)
             # Compute analytic solution on the uniform grid
-            rho_analytic, p_analytic, v_analytic = analytic_sod_strong_solution_1d(x_grid, t, gamma)
+            rho_analytic, p_analytic, v_analytic = vacuum1d(x_grid, t, gamma)
 
             # Update analytic lines using the grid data
             lines['dens'][i].set_data(x_grid, rho_analytic)
@@ -112,10 +112,18 @@ def animate_multiple_1d(list_of_dataframes, list_of_times, plot_titles=None):
 
 def main():
     data_dirs = [
-        "/Users/guo/research/sim_result_vis/result_data/1d_strongshock_gsph/results",
-        "/Users/guo/OSS/sphcode/sample/shock_tube_strong_shock/results/GSPH/shock_tube_strong_shock/1D"
+        "/Users/guo/OSS/sphcode/sample/vacuum_test/results/SSPH/vacuum_test/1D",
+        "/Users/guo/OSS/sphcode/sample/vacuum_test/results/GSPH/vacuum_test/1D",
+
+        "/Users/guo/OSS/sphcode/sample/vacuum_test/results/DISPH/vacuum_test/1D",
+        "/Users/guo/OSS/sphcode/sample/vacuum_test/results/GDISPH/vacuum_test/1D",
+
     ]
-    plot_titles = ["Dataset 1"]
+    plot_titles = [generate_title_from_dir(d) for d in data_dirs]
+    # Specify the path to your units JSON file.
+    units_json_path = "/Users/guo/OSS/sphcode/sample/vacuum_test/units.json"
+    # Load the units data.
+    units_data = load_units_json(units_json_path)
     list_of_dataframes = []
     list_of_times = []
     for data_path in data_dirs:

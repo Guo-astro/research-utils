@@ -1,6 +1,7 @@
 import os
 import glob
 import re
+import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -9,20 +10,61 @@ DEBUG_THRESHOLD = 1e5  # adjust this threshold as needed
 EXCLUDE_PATTERNS = ["energy", ".log"]
 
 
+def load_units_json(filename="units.json"):
+    """
+    Load the units and conversion factors from a JSON file.
+    Expected keys include:
+      - time_factor, length_factor, mass_factor, density_factor,
+        pressure_factor, energy_factor,
+      - time_unit, length_unit, mass_unit, density_unit,
+        pressure_unit, energy_unit,
+      - velocity_unit: desired velocity unit for plotting,
+      - plot_velocity_conversion: factor to convert simulation velocity (m/s)
+        to desired plotting unit (e.g. km/s).
+    """
+    with open(filename, "r") as f:
+        return json.load(f)
+
+
+# Load the default unit settings from units.json.
+
+def parse_column_units(columns):
+    """
+    Given a list of column names (strings) like "time [s]", "pos_x [m]", etc.,
+    return a tuple (new_columns, units_mapping) where:
+      - new_columns is a list of the base names (e.g. "time", "pos_x")
+      - units_mapping is a dict mapping the base name to its unit (e.g. {"time": "s", "pos_x": "m"})
+    """
+    new_columns = []
+    units_mapping = {}
+    for col in columns:
+        m = re.match(r"(.+?)\s*\[(.+?)\]", col)
+        if m:
+            base = m.group(1).strip()
+            unit = m.group(2).strip()
+            new_columns.append(base)
+            units_mapping[base] = unit
+        else:
+            new_columns.append(col)
+            units_mapping[col] = ""
+    return new_columns, units_mapping
+
+
 def extract_time(file):
     """
-    Extract the time step (in seconds) from the file header.
-    Looks for a line like: "# Time [s]: 0"
+    Extract the simulation time from the CSV file.
+    Assumes that the CSV file has a header row with a "time" column.
     """
-    with open(file, "r") as f:
-        for line in f:
-            if line.startswith("# Time"):
-                match = re.search(r":\s*([\d\.\-eE]+)", line)
-                if match:
-                    try:
-                        return float(match.group(1))
-                    except ValueError:
-                        return None
+    try:
+        # Read only the first row to get the time
+        df = pd.read_csv(file, nrows=1)
+        new_cols, units = parse_column_units(df.columns)
+        df.columns = new_cols
+        df.attrs["units"] = units
+        if "time" in df.columns:
+            return float(df["time"].iloc[0])
+    except Exception as e:
+        print(f"Error reading time from file {file}: {e}")
     return None
 
 
@@ -40,266 +82,144 @@ def filter_files(file_list):
     return filtered
 
 
-def parse_header(file):
+def apply_scaling_to_dataframe(df, units_data):
     """
-    Look for header lines in a data file that specify the column names.
-    Searches for lines starting with "# Columns:" and optionally "# Additional arrays:".
-
-    For a new data format, if a token starting with "..." is found in the "# Columns:" line
-    (e.g., "...additional?"), the parser checks the first non-header data line.
-    If there are extra tokens beyond the base columns, generic names are generated for the additional data.
-
-    Also, if the base columns are defined without a vector suffix for 1D files,
-    the first three columns "pos", "vel", "acc" are renamed to "pos_x", "vel_x", "acc_x".
+    Apply unit conversions to the DataFrame using the provided units_data.
+    For example, convert the velocity columns from m/s (simulation output)
+    to the desired unit (e.g. km/s) using the "plot_velocity_conversion" factor.
+    Also update the units in df.attrs["units"] accordingly.
     """
-    col_names = None
-    add_names = []
-    raw_add_fields = []
-    additional_flag = False  # flag for new format indicator in header
+    units = df.attrs.get("units", {})
+    if "vel_x" in df.columns and "plot_velocity_conversion" in units_data:
+        # Convert velocity from m/s to desired plotting unit.
+        conversion = units_data["plot_velocity_conversion"]
+        df["vel_x"] = df["vel_x"] * conversion
+        # Update unit label.
+        units["vel_x"] = units_data.get("velocity_unit", "km/s")
+    df.attrs["units"] = units
 
-    with open(file, "r") as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith("# Columns:"):
-                line_content = line[len("# Columns:"):].strip()
-                tokens = [c.strip() for c in line_content.split(",")]
-                base_cols = []
-                for token in tokens:
-                    # If a token starts with "..." (e.g. "...additional?"), set flag to process extra columns.
-                    if token.startswith("..."):
-                        additional_flag = True
-                    else:
-                        # Remove units (anything after a space) and use the first token.
-                        base_cols.append(token.split()[0])
-                col_names = base_cols
-            elif line.startswith("# Additional arrays:"):
-                line_content = line[len("# Additional arrays:"):].strip()
-                raw_add_fields = line_content.split()
-            elif not line.startswith("#"):
-                break
 
-    # If the new additional flag is set, check for extra tokens in the first non-header data line.
-    if additional_flag:
-        actual_tokens = None
-        with open(file, "r") as f:
-            for line in f:
-                if not line.startswith("#"):
-                    tokens = line.strip().split()
-                    actual_tokens = len(tokens)
-                    break
-        if actual_tokens is not None and actual_tokens > len(col_names):
-            extra_count = actual_tokens - len(col_names)
-            additional_columns = [f"additional_{i + 1}" for i in range(extra_count)]
-            col_names += additional_columns
+def load_dataframes_1d(data_path, file_extension="*.csv", units_json_path=None):
+    """
+    Load 1D CSV data files from the specified directory.
+    Expects a header line such as:
+      time [s], pos_x [m], vel_x [m/s], acc_x [m/s^2], mass [kg], dens [kg/m^3],
+      pres [Pa], ene [J/kg], sml [m], id, neighbor, alpha, gradh, ...
+    Returns:
+      (dataframes, times)
+    """
 
-    # Process additional arrays if provided via "# Additional arrays:".
-    if raw_add_fields:
-        # Get token count from the first non-header data line.
-        actual_tokens = None
-        with open(file, "r") as f:
-            for line in f:
-                if not line.startswith("#"):
-                    tokens = line.strip().split()
-                    actual_tokens = len(tokens)
-                    break
-        if actual_tokens is None:
-            actual_tokens = 0
+    file_list = sorted(glob.glob(os.path.join(data_path, file_extension)))
+    file_list = filter_files(file_list)
+    if not file_list:
+        raise FileNotFoundError(f"No 1D CSV files found in directory: {data_path}")
+    print(f"Found {len(file_list)} 1D CSV files in {data_path}.")
 
-        num_base = len(col_names)
-        num_fields = len(raw_add_fields)
-        expected_vector = num_base + 2 * num_fields  # if each additional array is a vector
-        expected_scalar = num_base + num_fields  # if each additional array is a scalar
+    dataframes = []
+    times = []
+    for file in file_list:
+        df = pd.read_csv(file)  # header is read automatically
+        new_cols, units = parse_column_units(df.columns)
+        df.columns = new_cols
+        df.attrs["units"] = units
 
-        if actual_tokens == expected_scalar:
-            for field in raw_add_fields:
-                field = field.strip(",")
-                if "(vector)" in field:
-                    base = field.split("(")[0]
-                    add_names.append(base)
-                else:
-                    add_names.append(field)
-        elif actual_tokens == expected_vector:
-            for field in raw_add_fields:
-                field = field.strip(",")
-                if "(vector)" in field:
-                    base = field.split("(")[0]
-                    add_names.extend([f"{base}_x", f"{base}_y"])
-                else:
-                    add_names.append(field)
+        # Apply scaling conversions (e.g. velocity)
+        # apply_scaling_to_dataframe(df, units_data)
+
+        if "time" in df.columns:
+            times.append(df["time"].iloc[0])
         else:
-            print(
-                f"Warning: In file {file}, actual tokens ({actual_tokens}) don't match expected scalar ({expected_scalar}) or vector ({expected_vector}) count. Using vector interpretation by default.")
-            for field in raw_add_fields:
-                field = field.strip(",")
-                if "(vector)" in field:
-                    base = field.split("(")[0]
-                    add_names.extend([f"{base}_x", f"{base}_y"])
-                else:
-                    add_names.append(field)
-    # Combine base columns and additional arrays.
-    if col_names:
-        # For 1D files, if 12 base columns are expected but header has "pos", "vel", "acc" instead of "pos_x", etc., fix that.
-        if len(col_names) == 12 and col_names[0] == "pos":
-            col_names[0] = "pos_x"
-            col_names[1] = "vel_x"
-            col_names[2] = "acc_x"
-        return col_names + add_names
-    return None
-
-
-def load_dataframes_1d(data_path, file_extension="*.dat"):
-    """
-    Load 1D data files from the specified directory.
-
-    If a header is present (with "# Columns:"), its names are used (with a fix if needed).
-    Otherwise, a default set of 12 columns is used:
-      ["pos_x", "vel_x", "acc_x", "mass", "dens", "pres", "ene", "sml", "id", "neighbor", "alpha", "gradh"]
-
-    Returns:
-      (dataframes, times)
-    """
-    file_list = sorted(glob.glob(os.path.join(data_path, file_extension)))
-    file_list = filter_files(file_list)
-    if not file_list:
-        raise FileNotFoundError(f"No 1D files found in directory: {data_path}")
-    print(f"Found {len(file_list)} 1D files in {data_path}.")
-
-    times = [extract_time(file) for file in file_list]
-    dataframes = []
-    default_columns = [
-        "pos_x", "vel_x", "acc_x",
-        "mass", "dens", "pres", "ene",
-        "sml", "id", "neighbor", "alpha", "gradh"
-    ]
-    for file in file_list:
-        cols = parse_header(file)
-        if cols is None:
-            cols = default_columns
-        # In case the header is present but doesn't include the 1D suffixes
-        if len(cols) >= 3 and cols[0] == "pos" and "pos_x" not in cols:
-            cols[0] = "pos_x"
-        if len(cols) >= 3 and cols[1] == "vel" and "vel_x" not in cols:
-            cols[1] = "vel_x"
-        if len(cols) >= 3 and cols[2] == "acc" and "acc_x" not in cols:
-            cols[2] = "acc_x"
-        df = pd.read_csv(file, sep=r'\s+', comment='#', header=None, names=cols)
-        large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
-        if large_indices:
-            print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
+            times.append(None)
+        if "pos_x" in df.columns:
+            large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
+            if large_indices:
+                print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
         dataframes.append(df)
     return dataframes, times
 
 
-def load_dataframes_2d(data_path, file_extension="*.dat"):
+def load_dataframes_2d(data_path, file_extension="*.csv", units_json_path=None):
     """
-    Load 2D data files from the specified directory.
-
-    If the file header contains a line starting with "# Columns:" (and optionally
-    "# Additional arrays:"), those names will be used. Otherwise, a default set of
-    15 columns is assumed:
-
-      ["pos_x", "pos_y", "vel_x", "vel_y", "acc_x", "acc_y",
-       "mass", "dens", "pres", "ene", "sml", "id", "neighbor", "alpha", "gradh"]
-
+    Load 2D CSV data files from the specified directory.
+    Expects a header line such as:
+      time [s], pos_x [m], pos_y [m], vel_x [m/s], vel_y [m/s], acc_x [m/s^2],
+      acc_y [m/s^2], mass [kg], dens [kg/m^3], pres [Pa], ene [J/kg],
+      sml [m], id, neighbor, alpha, gradh, ...
     Returns:
       (dataframes, times)
     """
+
     file_list = sorted(glob.glob(os.path.join(data_path, file_extension)))
     file_list = filter_files(file_list)
     if not file_list:
-        raise FileNotFoundError(f"No 2D files found in directory: {data_path}")
-    print(f"Found {len(file_list)} 2D files in {data_path}.")
+        raise FileNotFoundError(f"No 2D CSV files found in directory: {data_path}")
+    print(f"Found {len(file_list)} 2D CSV files in {data_path}.")
 
-    times = [extract_time(file) for file in file_list]
-    default_columns = [
-        "pos_x", "pos_y",
-        "vel_x", "vel_y",
-        "acc_x", "acc_y",
-        "mass", "dens",
-        "pres", "ene",
-        "sml", "id",
-        "neighbor", "alpha",
-        "gradh"
-    ]
     dataframes = []
+    times = []
     for file in file_list:
-        cols = parse_header(file)
-        if cols is None:
-            cols = default_columns
-        df = pd.read_csv(file, sep=r'\s+', comment='#', header=None, names=cols)
-        if df.shape[1] > len(cols):
-            print(f"Warning: File '{file}' has {df.shape[1]} columns; using first {len(cols)} columns.")
-            df = df.iloc[:, :len(cols)]
-        large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
-        if large_indices:
-            print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
-        dataframes.append(df)
-    return dataframes, times
+        df = pd.read_csv(file)
+        new_cols, units = parse_column_units(df.columns)
+        df.columns = new_cols
+        df.attrs["units"] = units
 
+        # apply_scaling_to_dataframe(df, units_data)
 
-def load_dataframes_3d(data_path, file_extension="*.dat"):
-    """
-    Load 3D data files from the specified directory.
-
-    Supports files with:
-      - 15 columns (often missing acceleration components),
-      - 18 columns (standard 3D), or
-      - 33 columns (with additional gradient info).
-
-    Returns:
-      (dataframes, times)
-    """
-    file_list = sorted(glob.glob(os.path.join(data_path, file_extension)))
-    file_list = filter_files(file_list)
-    if not file_list:
-        raise FileNotFoundError(f"No 3D files found in directory: {data_path}")
-    print(f"Found {len(file_list)} 3D files in {data_path}.")
-
-    times = [extract_time(file) for file in file_list]
-    dataframes = []
-    basic_columns = [
-        "pos_x", "pos_y", "pos_z",
-        "vel_x", "vel_y", "vel_z",
-        "acc_x", "acc_y", "acc_z",
-        "mass", "dens", "pres", "ene",
-        "sml", "id", "neighbor", "alpha", "gradh"
-    ]
-    columns_15 = [
-        "pos_x", "pos_y", "pos_z",
-        "vel_x", "vel_y", "vel_z",
-        "mass", "dens", "pres", "ene",
-        "sml", "id", "neighbor", "alpha", "gradh"
-    ]
-    for file in file_list:
-        df = pd.read_csv(file, sep=r'\s+', comment='#', header=None)
-        ncols = df.shape[1]
-        if ncols == 33:
-            additional_columns = [
-                "grad_velocity_0_x", "grad_velocity_0_y", "grad_velocity_0_z",
-                "grad_pressure_x", "grad_pressure_y", "grad_pressure_z",
-                "grad_velocity_2_x", "grad_velocity_2_y", "grad_velocity_2_z",
-                "grad_velocity_1_x", "grad_velocity_1_y", "grad_velocity_1_z",
-                "grad_density_x", "grad_density_y", "grad_density_z"
-            ]
-            df.columns = basic_columns + additional_columns
-        elif ncols == 18:
-            df.columns = basic_columns
-        elif ncols == 15:
-            df.columns = columns_15
+        if "time" in df.columns:
+            times.append(df["time"].iloc[0])
         else:
-            df.rename(columns=dict(zip(range(ncols), basic_columns[:ncols])), inplace=True)
-            print(f"Warning: File '{file}' has {ncols} columns; expected 15, 18, or 33 columns.")
-        large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
-        if large_indices:
-            print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
+            times.append(None)
+        if "pos_x" in df.columns:
+            large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
+            if large_indices:
+                print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
         dataframes.append(df)
     return dataframes, times
 
 
-def plot_intersection_along_line(df, line_start, line_end, tol=0.1, physics_keys=["dens", "vel", "pres"],
-                                 show_plot=True):
+def load_dataframes_3d(data_path, file_extension="*.csv", units_json_path=None):
+    """
+    Load 3D CSV data files from the specified directory.
+    Expects a header line such as:
+      time [s], pos_x [m], pos_y [m], pos_z [m], vel_x [m/s], vel_y [m/s],
+      vel_z [m/s], acc_x [m/s^2], acc_y [m/s^2], acc_z [m/s^2], mass [kg],
+      dens [kg/m^3], pres [Pa], ene [J/kg], sml [m], id, neighbor, alpha, gradh, ...
+    Returns:
+      (dataframes, times)
+    """
+
+    file_list = sorted(glob.glob(os.path.join(data_path, file_extension)))
+    file_list = filter_files(file_list)
+    if not file_list:
+        raise FileNotFoundError(f"No 3D CSV files found in directory: {data_path}")
+    print(f"Found {len(file_list)} 3D CSV files in {data_path}.")
+
+    dataframes = []
+    times = []
+    for file in file_list:
+        df = pd.read_csv(file)
+        new_cols, units = parse_column_units(df.columns)
+        df.columns = new_cols
+        df.attrs["units"] = units
+
+
+        if "time" in df.columns:
+            times.append(df["time"].iloc[0])
+        else:
+            times.append(None)
+        if "pos_x" in df.columns:
+            large_indices = df.index[np.abs(df["pos_x"]) > DEBUG_THRESHOLD].tolist()
+            if large_indices:
+                print(f"DEBUG: In file '{file}', large pos_x at rows {large_indices}")
+        dataframes.append(df)
+    return dataframes, times
+
+
+def plot_intersection_along_line(df, line_start, line_end, tol=0.1,
+                                 physics_keys=["dens", "vel", "pres"], show_plot=True):
     """
     Utility to plot the intersection along an arbitrary line in 2D.
+    The axis labels include units as read from the CSV header.
 
     Parameters:
       - df: DataFrame with at least "pos_x" and "pos_y"
@@ -311,6 +231,9 @@ def plot_intersection_along_line(df, line_start, line_end, tol=0.1, physics_keys
     Returns:
       fig, ax: the figure and axis objects.
     """
+    # Try to get the units mapping from df.attrs
+    units = df.attrs.get("units", {})
+
     x = df["pos_x"].values
     y = df["pos_y"].values
     points = np.column_stack((x, y))
@@ -330,26 +253,47 @@ def plot_intersection_along_line(df, line_start, line_end, tol=0.1, physics_keys
     s = t[mask] * d_norm
     sorted_indices = np.argsort(s)
     s_sorted = s[sorted_indices]
+
     fig, ax = plt.subplots(figsize=(8, 4))
     for key in physics_keys:
         if key == "vel":
+            # Compute velocity magnitude using available velocity components.
             if "vel_z" in df.columns:
-                vel = np.sqrt(
-                    df["vel_x"].values[mask] ** 2 + df["vel_y"].values[mask] ** 2 + df["vel_z"].values[mask] ** 2)
+                vel = np.sqrt(df["vel_x"].values[mask] ** 2 +
+                              df["vel_y"].values[mask] ** 2 +
+                              df["vel_z"].values[mask] ** 2)
             else:
-                vel = np.sqrt(df["vel_x"].values[mask] ** 2 + df["vel_y"].values[mask] ** 2)
+                vel = np.sqrt(df["vel_x"].values[mask] ** 2 +
+                              df["vel_y"].values[mask] ** 2)
             data = vel[sorted_indices]
-            label = "Velocity magnitude"
+            # Use the updated unit from 'vel_x' for velocity.
+            vel_unit = units.get("vel_x", "km/s")
+            label = f"Velocity magnitude [{vel_unit}]"
         else:
             if key not in df.columns:
                 raise ValueError(f"Column '{key}' not in DataFrame.")
             data = df[key].values[mask][sorted_indices]
-            label = key.capitalize()
+            key_unit = units.get(key, "")
+            label = f"{key.capitalize()} [{key_unit}]" if key_unit else key.capitalize()
         ax.plot(s_sorted, data, marker='o', linestyle='-', label=label)
-    ax.set_xlabel("Distance along line [m]")
+
+    # Set x-axis label using the unit from pos_x (if available)
+    posx_unit = units.get("pos_x", "m")
+    ax.set_xlabel(f"Distance along line [{posx_unit}]")
     ax.set_ylabel("Value")
     ax.set_title("Intersection Plot along Specified Line")
     ax.legend(loc="best")
     if show_plot:
         plt.show()
     return fig, ax
+
+
+def generate_title_from_dir(data_dir):
+    """
+    Automatically extract the SPH type from the data directory.
+    Assumes the directory structure is:
+      .../results/<SPH_TYPE>/<sample_name>/1D
+    This function returns the folder name corresponding to <SPH_TYPE>.
+    """
+    parent = os.path.dirname(os.path.dirname(data_dir))
+    return os.path.basename(parent)
