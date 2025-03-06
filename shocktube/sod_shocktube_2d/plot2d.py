@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from shocktube.sod_shocktube_1d.shocktube_analytic_1d import analytic_sod_solution_1d
-from vis.common import load_dataframes_2d
+from vis.common import load_dataframes_2d, generate_title_from_dir
 
 
 # --- Analytic functions for x-slice (perfect match from initial condition) ---
@@ -365,9 +365,11 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
 def main():
     # Example usage for 2D plots.
     data_dirs = [
-        "/Users/guo/OSS/sphcode/results",
+        "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/GDISPH/shock_tube_2d/2D",
+        "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/GSPH/shock_tube_2d/2D",
+
     ]
-    plot_titles = ["DISPH"]
+    plot_titles = [generate_title_from_dir(d) for d in data_dirs]
     list_of_dataframes = []
     list_of_times = []
     for data_path in data_dirs:
