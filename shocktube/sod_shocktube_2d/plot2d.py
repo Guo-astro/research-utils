@@ -365,10 +365,10 @@ def animate_multiple_2d(list_of_dataframes, list_of_times, physics_key="dens", p
 def main():
     # Example usage for 2D plots.
     data_dirs = [
-        "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/GDISPH/shock_tube_2d/2D",
-        "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/GSPH/shock_tube_2d/2D",
-        # "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/DISPH/shock_tube_2d/2D",
-        "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/SSPH/shock_tube_2d/2D",
+        # "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/GDISPH/shock_tube_2d/2D",
+        # "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/GSPH/shock_tube_2d/2D",
+        "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/DISPH/shock_tube_2d/2D",
+        # "/Users/guo/OSS/sphcode/sample/shock_tube_2d/results/SSPH/shock_tube_2d/2D",
 
     ]
     plot_titles = [generate_title_from_dir(d) for d in data_dirs]
